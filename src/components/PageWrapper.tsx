@@ -7,7 +7,7 @@ interface PageWrapperProps {
 
 const PageWrapper = ({ children, className = "" }: PageWrapperProps) => {
   return (
-    <div className={`min-h-screen pt-16 ${className}`}>
+    <div className={`min-h-screen pt-16 overflow-y-auto ${className}`}>
       {children}
     </div>
   );

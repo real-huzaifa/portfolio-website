@@ -4,18 +4,19 @@ import PageWrapper from "@/components/PageWrapper";
 
 const About = () => {
   const coursework = [
-    "Statistical Analysis",
-    "Machine Learning",
+    "Data Analysis",
     "Data Visualization",
-    "Deep Learning",
-    "Natural Language Processing",
-    "Big Data Analytics",
+    "Machine Learning",
+    "Database Systems",
   ];
 
   const certifications = [
-    "IBM Data Science Professional Certificate",
-    "Python for Data Science",
-    "SQL for Data Analysis",
+    "Data Analyst In Python | DataCamp",
+    "Work Smarter With Excel | Microsoft",
+    "Introduction To Data Analytics | Meta",
+    "Dashboards and Charts With Excel | IBM",
+    "SQL Fundamentals | DataCamp",
+    "PowerBi Fundamentals | DataCamp",
   ];
 
   return (
