@@ -23,12 +23,7 @@ const Index = () => {
     "PowerBi Fundamentals | DataCamp",
   ];
 
-  const technicalSkills = [
-    { name: "Python", level: 90, icon: Code },
-    { name: "SQL", level: 85, icon: Database },
-    { name: "Excel", level: 80, icon: BarChart3 },
-    { name: "Power BI", level: 75, icon: BarChart3 },
-  ];
+  const technicalSkills = ["Python", "SQL", "Excel", "Power BI", "Tableau"];
 
   const domainExpertise = [
     { title: "Data Science", description: "End-to-end data science projects from data collection to deployment" },
