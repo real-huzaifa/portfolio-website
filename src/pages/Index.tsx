@@ -23,12 +23,7 @@ const Index = () => {
     "PowerBi Fundamentals | DataCamp",
   ];
 
-  const technicalSkills = [
-    { name: "Python", level: 90, icon: Code },
-    { name: "SQL", level: 85, icon: Database },
-    { name: "Excel", level: 80, icon: BarChart3 },
-    { name: "Power BI", level: 75, icon: BarChart3 },
-  ];
+  const technicalSkills = ["Python", "SQL", "Excel", "Power BI", "Tableau"];
 
   const domainExpertise = [
     { title: "Data Science", description: "End-to-end data science projects from data collection to deployment" },
@@ -246,18 +241,11 @@ const Index = () => {
           <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-8 flex items-center gap-3">
             <Code className="h-6 w-6" /> Technical Skills
           </h3>
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
             {technicalSkills.map((skill, index) => (
               <Card key={index} className="bg-card border-border box-glow-hover group">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <skill.icon className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                      <span className="font-medium text-foreground">{skill.name}</span>
-                    </div>
-                    <span className="text-sm text-muted-foreground">{skill.level}%</span>
-                  </div>
-                  <Progress value={skill.level} className="h-2 bg-secondary" />
+                <CardContent className="p-6 text-center">
+                  <p className="font-medium text-foreground">{skill}</p>
                 </CardContent>
               </Card>
             ))}
