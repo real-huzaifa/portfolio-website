@@ -21,12 +21,12 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-p3-blue/20">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           <button
             onClick={() => scrollTo("#home")}
-            className="text-lg font-semibold tracking-tight text-foreground hover:text-foreground/80 transition-colors"
+            className="font-display text-lg font-bold tracking-widest text-p3-blue hover:text-p3-cyan transition-colors text-glow"
           >
             AHM
           </button>
@@ -37,7 +37,7 @@ const Navigation = () => {
               <button
                 key={item.href}
                 onClick={() => scrollTo(item.href)}
-                className="text-sm font-medium text-muted-foreground link-underline transition-colors hover:text-foreground"
+                className="text-sm font-semibold uppercase tracking-wider text-muted-foreground link-underline transition-colors hover:text-p3-blue"
               >
                 {item.name}
               </button>
@@ -47,18 +47,18 @@ const Navigation = () => {
           {/* Mobile */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="text-p3-blue">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] bg-background border-border">
+            <SheetContent side="right" className="w-[280px] bg-background border-p3-blue/20">
               <div className="flex flex-col gap-6 mt-8">
                 {navItems.map((item) => (
                   <button
                     key={item.href}
                     onClick={() => { scrollTo(item.href); setIsOpen(false); }}
-                    className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground text-left"
+                    className="text-lg font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-p3-blue text-left font-display"
                   >
                     {item.name}
                   </button>
