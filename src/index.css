@@ -1,0 +1,778 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Share+Tech+Mono&family=Bebas+Neue&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================
+   PERSONA 3 RELOAD — AUTHENTIC UI SYSTEM
+   ============================================= */
+
+@layer base {
+  :root {
+    /* P3R Core Colors */
+    --p3-black: 0 0% 4%;
+    --p3-navy: 220 70% 10%;
+    --p3-blue-deep: 215 80% 16%;
+    --p3-blue: 215 100% 50%;
+    --p3-blue-bright: 210 100% 65%;
+    --p3-cyan: 190 100% 55%;
+    --p3-teal: 175 100% 45%;
+    --p3-white: 0 0% 97%;
+    --p3-gray: 215 20% 60%;
+    --p3-dark-card: 220 60% 9%;
+    --p3-accent-gold: 45 90% 60%;
+
+    /* Shadcn Variables */
+    --background: 220 65% 5%;
+    --foreground: 210 100% 97%;
+    --card: 220 60% 9%;
+    --card-foreground: 210 100% 97%;
+    --popover: 220 60% 9%;
+    --popover-foreground: 210 100% 97%;
+    --primary: 215 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 50% 15%;
+    --secondary-foreground: 210 80% 90%;
+    --muted: 220 40% 18%;
+    --muted-foreground: 215 35% 55%;
+    --accent: 190 100% 55%;
+    --accent-foreground: 0 0% 5%;
+    --destructive: 0 80% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 50% 20%;
+    --input: 215 50% 20%;
+    --ring: 215 100% 50%;
+    --radius: 0px;
+  }
+}
+
+@layer base {
+  * { @apply border-border; box-sizing: border-box; }
+  
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* Custom scrollbar — P3R style */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--p3-black)); }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--p3-blue) / 0.6);
+    border-radius: 0;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--p3-cyan)); }
+}
+
+/* =============================================
+   P3R TYPOGRAPHY SYSTEM
+   ============================================= */
+
+.font-p3-display {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.12em;
+}
+
+.font-p3-ui {
+  font-family: 'Exo 2', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.font-p3-mono {
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.font-p3-body {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* =============================================
+   P3R GLOW & VISUAL EFFECTS
+   ============================================= */
+
+.p3-text-glow {
+  text-shadow:
+    0 0 8px hsl(var(--p3-blue) / 0.9),
+    0 0 25px hsl(var(--p3-blue) / 0.6),
+    0 0 50px hsl(var(--p3-blue) / 0.3),
+    0 0 100px hsl(var(--p3-blue) / 0.15);
+}
+
+.p3-text-glow-cyan {
+  text-shadow:
+    0 0 8px hsl(var(--p3-cyan) / 0.9),
+    0 0 25px hsl(var(--p3-cyan) / 0.5),
+    0 0 60px hsl(var(--p3-cyan) / 0.25);
+}
+
+.p3-text-glow-white {
+  text-shadow:
+    0 0 15px hsl(0 0% 100% / 0.8),
+    0 0 40px hsl(var(--p3-blue-bright) / 0.5);
+}
+
+.p3-box-glow {
+  box-shadow:
+    0 0 20px hsl(var(--p3-blue) / 0.35),
+    0 0 60px hsl(var(--p3-blue) / 0.15),
+    inset 0 0 20px hsl(var(--p3-blue) / 0.05);
+}
+
+.p3-box-glow-cyan {
+  box-shadow:
+    0 0 20px hsl(var(--p3-cyan) / 0.4),
+    0 0 60px hsl(var(--p3-cyan) / 0.15);
+}
+
+/* =============================================
+   P3R CARD SYSTEM — Tartarus Panel Style
+   ============================================= */
+
+/* Angled corner cut — P3R signature */
+.p3-panel {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--p3-dark-card)) 0%,
+    hsl(var(--p3-blue-deep) / 0.6) 100%
+  );
+  border: 1px solid hsl(var(--p3-blue) / 0.25);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 16px) 0,
+    100% 16px,
+    100% 100%,
+    16px 100%,
+    0 calc(100% - 16px)
+  );
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+}
+
+.p3-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--p3-blue) / 0.08) 0%,
+    transparent 50%,
+    hsl(var(--p3-cyan) / 0.04) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.p3-panel::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent,
+    hsl(var(--p3-blue) / 0.8),
+    hsl(var(--p3-cyan) / 0.6),
+    transparent
+  );
+}
+
+.p3-panel:hover {
+  border-color: hsl(var(--p3-blue) / 0.6);
+  transform: translateY(-3px);
+  box-shadow:
+    0 8px 40px hsl(var(--p3-blue) / 0.3),
+    0 0 80px hsl(var(--p3-blue) / 0.1),
+    inset 0 0 30px hsl(var(--p3-blue) / 0.06);
+}
+
+.p3-panel > * { position: relative; z-index: 1; }
+
+/* Small cut variant */
+.p3-panel-sm {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
+}
+
+/* =============================================
+   P3R NAVIGATION — Evoker/Menu Style
+   ============================================= */
+
+.p3-nav {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--p3-black) / 0.97) 0%,
+    hsl(var(--p3-navy) / 0.95) 100%
+  );
+  border-bottom: 1px solid hsl(var(--p3-blue) / 0.3);
+  backdrop-filter: blur(20px) saturate(1.5);
+}
+
+.p3-nav-link {
+  position: relative;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: hsl(var(--p3-gray));
+  transition: color 0.3s ease;
+  padding: 6px 0;
+}
+
+.p3-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, hsl(var(--p3-blue)), hsl(var(--p3-cyan)));
+  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 10px hsl(var(--p3-blue) / 0.6);
+}
+
+.p3-nav-link:hover {
+  color: hsl(var(--p3-blue-bright));
+}
+
+.p3-nav-link:hover::after {
+  width: 100%;
+}
+
+/* =============================================
+   P3R BUTTON SYSTEM
+   ============================================= */
+
+.p3-btn-primary {
+  position: relative;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: white;
+  background: transparent;
+  border: none;
+  padding: 14px 40px;
+  clip-path: polygon(
+    0 0, calc(100% - 12px) 0, 100% 12px,
+    100% 100%, 12px 100%, 0 calc(100% - 12px)
+  );
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.p3-btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--p3-blue)) 0%,
+    hsl(var(--p3-cyan)) 100%
+  );
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.p3-btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--p3-cyan)) 0%,
+    hsl(var(--p3-teal)) 100%
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.p3-btn-primary:hover::after { opacity: 1; }
+
+.p3-btn-primary:hover {
+  box-shadow:
+    0 0 30px hsl(var(--p3-blue) / 0.7),
+    0 0 60px hsl(var(--p3-blue) / 0.3);
+  transform: translateY(-2px);
+}
+
+.p3-btn-outline {
+  position: relative;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: hsl(var(--p3-blue-bright));
+  background: hsl(var(--p3-blue) / 0.08);
+  border: 1px solid hsl(var(--p3-blue) / 0.5);
+  padding: 13px 39px;
+  clip-path: polygon(
+    0 0, calc(100% - 12px) 0, 100% 12px,
+    100% 100%, 12px 100%, 0 calc(100% - 12px)
+  );
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.p3-btn-outline:hover {
+  background: hsl(var(--p3-blue) / 0.18);
+  border-color: hsl(var(--p3-blue-bright));
+  box-shadow:
+    0 0 20px hsl(var(--p3-blue) / 0.4),
+    inset 0 0 20px hsl(var(--p3-blue) / 0.08);
+  transform: translateY(-2px);
+}
+
+/* =============================================
+   P3R SECTION TRANSITIONS
+   ============================================= */
+
+/* The distinctive P3R diagonal wipe separator */
+.p3-section-divider {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.p3-section-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--p3-blue) / 0.7) 20%,
+    hsl(var(--p3-cyan) / 0.9) 50%,
+    hsl(var(--p3-blue) / 0.7) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 10px hsl(var(--p3-blue) / 0.5);
+}
+
+.p3-section-divider::after {
+  content: '◆';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: hsl(var(--p3-blue-bright));
+  font-size: 14px;
+  text-shadow: 0 0 15px hsl(var(--p3-blue) / 0.9);
+  background: hsl(var(--background));
+  padding: 0 12px;
+}
+
+/* =============================================
+   SECTION HEADER — P3R "Selection" style
+   ============================================= */
+
+.p3-section-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  color: hsl(var(--p3-cyan));
+  text-transform: uppercase;
+}
+
+.p3-section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.1em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+/* Striped accent bar */
+.p3-accent-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.p3-accent-bar::before,
+.p3-accent-bar::after {
+  content: '';
+  height: 2px;
+  flex: 1;
+  background: linear-gradient(90deg,
+    hsl(var(--p3-blue) / 0.8),
+    hsl(var(--p3-cyan) / 0.6),
+    transparent
+  );
+}
+
+.p3-accent-bar::before {
+  background: linear-gradient(90deg,
+    transparent,
+    hsl(var(--p3-cyan) / 0.6),
+    hsl(var(--p3-blue) / 0.8)
+  );
+}
+
+/* =============================================
+   P3R SCAN LINE OVERLAY
+   ============================================= */
+
+.p3-scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    hsl(0 0% 0% / 0.03) 2px,
+    hsl(0 0% 0% / 0.03) 4px
+  );
+  pointer-events: none;
+}
+
+.p3-diagonal-lines {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    hsl(var(--p3-blue) / 0.025) 4px,
+    hsl(var(--p3-blue) / 0.025) 6px
+  );
+  pointer-events: none;
+}
+
+/* =============================================
+   P3R SKILL/TAG BADGE
+   ============================================= */
+
+.p3-tag {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: hsl(var(--p3-blue-bright));
+  background: hsl(var(--p3-blue) / 0.12);
+  border: 1px solid hsl(var(--p3-blue) / 0.35);
+  padding: 4px 12px;
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+  transition: all 0.25s ease;
+}
+
+.p3-tag:hover {
+  background: hsl(var(--p3-blue) / 0.22);
+  border-color: hsl(var(--p3-blue-bright));
+  color: white;
+  box-shadow: 0 0 10px hsl(var(--p3-blue) / 0.3);
+}
+
+/* =============================================
+   SCROLL REVEAL ANIMATIONS — P3R style
+   ============================================= */
+
+/* Slide in from left (like P3R menu items) */
+.p3-reveal {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition:
+    opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.p3-reveal.p3-revealed { opacity: 1; transform: translateX(0); }
+
+.p3-reveal-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition:
+    opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.p3-reveal-right.p3-revealed { opacity: 1; transform: translateX(0); }
+
+.p3-reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.p3-reveal-up.p3-revealed { opacity: 1; transform: translateY(0); }
+
+.p3-reveal-scale {
+  opacity: 0;
+  transform: scale(0.92) translateY(20px);
+  transition:
+    opacity 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.p3-reveal-scale.p3-revealed { opacity: 1; transform: scale(1) translateY(0); }
+
+/* Stagger delays */
+.p3-delay-100 { transition-delay: 100ms !important; }
+.p3-delay-200 { transition-delay: 200ms !important; }
+.p3-delay-300 { transition-delay: 300ms !important; }
+.p3-delay-400 { transition-delay: 400ms !important; }
+.p3-delay-500 { transition-delay: 500ms !important; }
+.p3-delay-600 { transition-delay: 600ms !important; }
+.p3-delay-700 { transition-delay: 700ms !important; }
+.p3-delay-800 { transition-delay: 800ms !important; }
+
+/* =============================================
+   HERO ANIMATIONS
+   ============================================= */
+
+@keyframes p3-hero-title {
+  0% { opacity: 0; letter-spacing: 0.5em; transform: skewX(-5deg) translateY(20px); }
+  60% { opacity: 1; letter-spacing: 0.1em; transform: skewX(0deg) translateY(0); }
+  100% { opacity: 1; letter-spacing: 0.1em; transform: skewX(0deg) translateY(0); }
+}
+
+@keyframes p3-fade-slide {
+  from { opacity: 0; transform: translateX(-25px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes p3-fade-up {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes p3-glitch {
+  0%, 95%, 100% { transform: none; clip-path: none; }
+  96% { transform: translateX(3px) skewX(5deg); clip-path: polygon(0 10%, 100% 10%, 100% 40%, 0 40%); }
+  97% { transform: translateX(-3px) skewX(-3deg); clip-path: polygon(0 60%, 100% 60%, 100% 90%, 0 90%); }
+  98% { transform: translateX(2px); clip-path: none; }
+}
+
+@keyframes p3-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-8px) rotate(1deg); }
+  66% { transform: translateY(-4px) rotate(-0.5deg); }
+}
+
+@keyframes p3-pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes p3-scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+@keyframes p3-clock-tick {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes p3-text-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.4; }
+}
+
+@keyframes p3-border-chase {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+.p3-animate-hero-title {
+  animation: p3-hero-title 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.p3-animate-fade-slide {
+  animation: p3-fade-slide 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.p3-animate-fade-up {
+  animation: p3-fade-up 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.p3-animate-float {
+  animation: p3-float 5s ease-in-out infinite;
+}
+
+.p3-animate-glitch {
+  animation: p3-glitch 8s ease-in-out infinite;
+}
+
+.p3-animate-flicker {
+  animation: p3-text-flicker 4s linear infinite;
+}
+
+/* =============================================
+   P3R BACKGROUND ELEMENTS
+   ============================================= */
+
+/* Persona 3 Reload main blue gradient */
+.p3-bg-main {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, hsl(215 100% 20% / 0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 60%, hsl(190 100% 30% / 0.12) 0%, transparent 60%),
+    hsl(var(--background));
+}
+
+.p3-bg-section-alt {
+  background:
+    radial-gradient(ellipse 100% 60% at 20% 50%, hsl(215 80% 15% / 0.35) 0%, transparent 60%),
+    hsl(var(--p3-navy) / 0.3);
+}
+
+/* The distinctive P3R clock/moon overlay */
+.p3-circle-bg {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* =============================================
+   P3R PROGRESS / STAT BARS
+   ============================================= */
+
+.p3-stat-bar {
+  height: 4px;
+  background: hsl(var(--p3-navy));
+  position: relative;
+  overflow: hidden;
+}
+
+.p3-stat-fill {
+  height: 100%;
+  background: linear-gradient(90deg, hsl(var(--p3-blue)), hsl(var(--p3-cyan)));
+  box-shadow: 0 0 8px hsl(var(--p3-blue) / 0.6);
+  position: relative;
+}
+
+.p3-stat-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.4));
+}
+
+/* =============================================
+   P3R TIMELINE — Tartarus style
+   ============================================= */
+
+.p3-timeline-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    hsl(var(--p3-blue) / 0.8) 15%,
+    hsl(var(--p3-cyan) / 0.6) 50%,
+    hsl(var(--p3-blue) / 0.8) 85%,
+    transparent 100%
+  );
+  box-shadow: 0 0 8px hsl(var(--p3-blue) / 0.4);
+}
+
+.p3-timeline-dot {
+  width: 14px;
+  height: 14px;
+  background: hsl(var(--p3-blue));
+  transform: rotate(45deg);
+  box-shadow:
+    0 0 0 3px hsl(var(--background)),
+    0 0 0 5px hsl(var(--p3-blue) / 0.4),
+    0 0 15px hsl(var(--p3-blue) / 0.6);
+  animation: p3-pulse-ring 2s ease-out infinite;
+}
+
+/* =============================================
+   P3R PARTICLES / DECORATIVE ELEMENTS
+   ============================================= */
+
+.p3-diamond {
+  width: 8px;
+  height: 8px;
+  background: hsl(var(--p3-blue));
+  transform: rotate(45deg);
+  box-shadow: 0 0 10px hsl(var(--p3-blue) / 0.7);
+}
+
+.p3-diamond-sm {
+  width: 5px;
+  height: 5px;
+  background: hsl(var(--p3-cyan));
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px hsl(var(--p3-cyan) / 0.6);
+}
+
+/* =============================================
+   P3R MISC UTILITIES
+   ============================================= */
+
+.p3-border-glow {
+  border: 1px solid hsl(var(--p3-blue) / 0.4);
+  box-shadow: 0 0 15px hsl(var(--p3-blue) / 0.2);
+}
+
+.p3-gradient-text {
+  background: linear-gradient(135deg, hsl(var(--p3-blue-bright)), hsl(var(--p3-cyan)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* The P3R corner decorators */
+.p3-corner-tl::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 20px; height: 20px;
+  border-top: 2px solid hsl(var(--p3-blue));
+  border-left: 2px solid hsl(var(--p3-blue));
+}
+
+.p3-corner-br::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 20px; height: 20px;
+  border-bottom: 2px solid hsl(var(--p3-cyan));
+  border-right: 2px solid hsl(var(--p3-cyan));
+}
+
+/* Section bg variants */
+.section-dark {
+  background: hsl(var(--background));
+}
+
+.section-navy {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--p3-navy) / 0.5) 0%,
+    hsl(var(--background)) 100%
+  );
+}
+
+/* Scan line animation for accent elements */
+.p3-scan-line::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 40px;
+  background: linear-gradient(90deg, transparent, hsl(var(--p3-blue) / 0.3), transparent);
+  animation: p3-scan 3s linear infinite;
+}
