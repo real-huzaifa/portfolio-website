@@ -1,0 +1,51 @@
+/* P3RContainer.css - Container styling with P3R theme */
+
+.p3r-container {
+  background: linear-gradient(135deg, #0a1e3d 0%, #1a3a5c 50%, #0a1e3d 100%);
+  border: 3px solid;
+  border-image: linear-gradient(135deg, #00FFFF, #FF00FF, #00FFFF) 1;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 0 20px rgba(0, 255, 255, 0.2),
+    0 0 30px rgba(0, 255, 255, 0.3),
+    0 0 60px rgba(255, 0, 255, 0.2);
+}
+
+.p3r-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  pointer-events: none;
+  animation: scanlines 8s linear infinite;
+  z-index: 1;
+}
+
+.p3r-border {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes scanlines {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(10px); }
+}
+
+@media (max-width: 768px) {
+  .p3r-container {
+    padding: 1rem;
+    border-width: 2px;
+  }
+}
