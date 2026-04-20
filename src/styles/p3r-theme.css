@@ -1,0 +1,40 @@
+.p3r-theme {
+  /* Persona 3 Reload Theme Styles */
+  animation: glitch 1s infinite;
+  color: #00FFEA;
+  text-shadow: 0 0 5px #00FFEA, 
+               0 0 10px #00E6E2,
+               0 0 20px #00D9D5;
+}
+
+@keyframes glitch {
+  0% { text-shadow: 1px 0 red, -1px 0 blue; }
+  20% { text-shadow: -1px 0 red, 1px 0 blue; }
+  40% { text-shadow: 1px 0 blue, -1px 0 red; }
+  60% { text-shadow: -1px 0 blue, 1px 0 red; }
+  100% { text-shadow: 1px 0 red, -1px 0 blue; }
+}
+
+.text-split {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.text-split span {
+  display: inline-block;
+  animation: text-split-animation 1.2s ease-in-out infinite;
+}
+
+@keyframes text-split-animation {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20%); }
+}
+
+.neon-glow {
+  color: #00FFEA;
+  text-shadow: 0 0 5px #00FFEA,
+               0 0 10px #00FFEA,
+               0 0 20px #00E6E2,
+               0 0 30px #00E6E2;
+}
