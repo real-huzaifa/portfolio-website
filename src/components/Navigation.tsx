@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
 const navItems = [
-  { name: "Home",       href: "#home" },
-  { name: "About",      href: "#about" },
-  { name: "Skills",     href: "#skills" },
+  { name: "Home", href: "#home" },
+  { name: "About", href: "#about" },
+  { name: "Skills", href: "#skills" },
   { name: "Experience", href: "#experience" },
-  { name: "Projects",   href: "#projects" },
-  { name: "Contact",    href: "#contact" },
+  { name: "Projects", href: "#projects" },
+  { name: "Contact", href: "#contact" },
 ];
 
 const scrollTo = (href: string) => {
@@ -15,77 +15,97 @@ const scrollTo = (href: string) => {
 };
 
 const Navigation = () => {
-  const [isOpen,        setIsOpen]        = useState(false);
-  const [scrolled,      setScrolled]      = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
-    const handle = () => {
+    const handleScroll = () => {
       setScrolled(window.scrollY > 30);
-      for (const item of [...navItems].reverse()) {
-        const id = item.href.replace("#", "");
-        const el = document.getElementById(id);
+
+      // Determine active section
+      const sections = navItems.map((n) => n.href.replace("#", ""));
+      for (const section of [...sections].reverse()) {
+        const el = document.getElementById(section);
         if (el && window.scrollY >= el.offsetTop - 120) {
-          setActiveSection(id);
+          setActiveSection(section);
           break;
         }
       }
     };
-    window.addEventListener("scroll", handle);
-    return () => window.removeEventListener("scroll", handle);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
           background: scrolled
-            ? "rgba(5, 45, 65, 0.96)"
-            : "rgba(5, 45, 65, 0.75)",
-          borderBottom: "1px solid rgba(100, 220, 255, 0.2)",
-          backdropFilter: "blur(16px)",
+            ? "linear-gradient(180deg, hsl(220 65% 5% / 0.97) 0%, hsl(220 60% 7% / 0.95) 100%)"
+            : "linear-gradient(180deg, hsl(220 65% 5% / 0.9) 0%, transparent 100%)",
+          borderBottom: scrolled ? "1px solid hsl(215 100% 50% / 0.25)" : "1px solid transparent",
+          backdropFilter: scrolled ? "blur(20px) saturate(1.5)" : "none",
         }}
       >
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between h-14">
-
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <button onClick={() => scrollTo("#home")} className="flex items-center gap-2">
+            <button
+              onClick={() => scrollTo("#home")}
+              className="relative group"
+            >
               <div
-                style={{
-                  width: 28, height: 28,
-                  background: "linear-gradient(135deg, hsl(352,82%,48%), hsl(352,90%,60%))",
-                  clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
-                  boxShadow: "0 0 12px rgba(200,30,50,0.5)",
-                  flexShrink: 0,
-                }}
-              />
-              <span style={{
-                fontFamily: "'Exo 2', sans-serif",
-                fontWeight: 900,
-                fontStyle: "italic",
-                fontSize: "1.1rem",
-                letterSpacing: "0.2em",
-                color: "rgba(220, 245, 255, 0.95)",
-                textShadow: "0 0 12px rgba(100,220,255,0.4)",
-              }}>
-                AHM
-              </span>
+                className="flex items-center gap-2"
+                style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.2em" }}
+              >
+                <div
+                  className="w-7 h-7 flex items-center justify-center"
+                  style={{
+                    background: "linear-gradient(135deg, hsl(215 100% 50%), hsl(190 100% 55%))",
+                    clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
+                    boxShadow: "0 0 15px hsl(215 100% 50% / 0.5)",
+                  }}
+                >
+                  <span style={{ fontSize: "0.65rem", color: "white", fontWeight: 900 }}>P3</span>
+                </div>
+                <span
+                  className="text-xl"
+                  style={{
+                    color: "hsl(215 100% 65%)",
+                    textShadow: "0 0 15px hsl(215 100% 55% / 0.6)",
+                  }}
+                >
+                  AHM
+                </span>
+              </div>
             </button>
 
-            {/* Desktop nav */}
+            {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
-              {navItems.map(item => {
-                const id = item.href.replace("#", "");
-                const active = activeSection === id;
+              {navItems.map((item) => {
+                const isActive = activeSection === item.href.replace("#", "");
                 return (
                   <button
                     key={item.href}
                     onClick={() => scrollTo(item.href)}
-                    className={`p3r-nav-link ${active ? "active" : ""}`}
+                    className="p3-nav-link"
+                    style={{
+                      color: isActive ? "hsl(215 100% 65%)" : "hsl(215 35% 55%)",
+                      textShadow: isActive ? "0 0 10px hsl(215 100% 55% / 0.5)" : "none",
+                    }}
                   >
                     {item.name}
+                    {isActive && (
+                      <span
+                        className="absolute bottom-[-2px] left-0 w-full h-[2px]"
+                        style={{
+                          background: "linear-gradient(90deg, hsl(215 100% 50%), hsl(190 100% 55%))",
+                          boxShadow: "0 0 8px hsl(215 100% 50% / 0.6)",
+                        }}
+                      />
+                    )}
                   </button>
                 );
               })}
@@ -93,18 +113,18 @@ const Navigation = () => {
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden flex flex-col gap-1.5 p-2"
               onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden flex flex-col gap-1.5 p-2 group"
               aria-label="Toggle menu"
             >
-              {[0,1,2].map(i => (
+              {[0, 1, 2].map((i) => (
                 <span
                   key={i}
-                  className="block transition-all duration-300"
+                  className="block h-[2px] transition-all duration-300"
                   style={{
                     width: i === 1 ? (isOpen ? 20 : 14) : 20,
-                    height: 2,
-                    background: "rgba(200, 240, 255, 0.9)",
+                    background: "hsl(215 100% 60%)",
+                    boxShadow: "0 0 6px hsl(215 100% 55% / 0.5)",
                     transform: isOpen
                       ? i === 0 ? "rotate(45deg) translate(5px, 5px)"
                       : i === 2 ? "rotate(-45deg) translate(5px, -5px)"
@@ -119,34 +139,43 @@ const Navigation = () => {
         </div>
       </nav>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile menu */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 md:hidden flex flex-col items-center justify-center gap-8"
-          style={{ background: "rgba(5, 40, 60, 0.98)", backdropFilter: "blur(20px)" }}
+          className="fixed inset-0 z-40 md:hidden"
+          style={{ background: "hsl(220 65% 5% / 0.98)", backdropFilter: "blur(20px)" }}
         >
-          {navItems.map((item, i) => (
-            <button
-              key={item.href}
-              onClick={() => { scrollTo(item.href); setIsOpen(false); }}
-              style={{
-                fontFamily: "'Exo 2', sans-serif",
-                fontWeight: 900,
-                fontStyle: "italic",
-                fontSize: "2.5rem",
-                textTransform: "uppercase",
-                letterSpacing: "0.15em",
-                color: "rgba(220, 248, 255, 0.9)",
-                textShadow: "0 0 20px rgba(100,220,255,0.4)",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                animation: `menuSlideIn 0.4s ${i * 0.06}s ease both`,
-              }}
-            >
-              {item.name}
-            </button>
-          ))}
+          {/* Decorative lines */}
+          <div
+            className="absolute inset-0 p3-diagonal-lines"
+            style={{ opacity: 0.4 }}
+          />
+          <div className="flex flex-col items-center justify-center h-full gap-8 relative z-10">
+            {navItems.map((item, i) => (
+              <button
+                key={item.href}
+                onClick={() => { scrollTo(item.href); setIsOpen(false); }}
+                className="text-3xl transition-all duration-300"
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  letterSpacing: "0.25em",
+                  color: "hsl(215 100% 65%)",
+                  textShadow: "0 0 15px hsl(215 100% 55% / 0.4)",
+                  animationDelay: `${i * 0.05}s`,
+                }}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLElement).style.textShadow = "0 0 25px hsl(190 100% 55% / 0.8)";
+                  (e.target as HTMLElement).style.color = "hsl(190 100% 65%)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLElement).style.textShadow = "0 0 15px hsl(215 100% 55% / 0.4)";
+                  (e.target as HTMLElement).style.color = "hsl(215 100% 65%)";
+                }}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </>

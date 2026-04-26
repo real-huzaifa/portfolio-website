@@ -1,718 +1,1075 @@
-import { useEffect, useRef, useState } from "react";
 import {
-  GraduationCap, BookOpen, Award, Code, Brain, Users,
-  MessageSquare, BarChart3, Briefcase, Calendar, MapPin,
-  Search, Heart, Ship, Linkedin, Mail, Phone, ExternalLink,
+  ArrowRight,
+  ChevronDown,
+  GraduationCap,
+  BookOpen,
+  Award,
+  Code,
+  Brain,
+  Users,
+  MessageSquare,
+  BarChart3,
+  Briefcase,
+  Calendar,
+  MapPin,
+  Search,
+  Heart,
+  Ship,
+  Linkedin,
+  Mail,
+  Phone,
+  ExternalLink,
+  Database,
 } from "lucide-react";
+import FloatingParticles from "@/components/FloatingParticles";
+import useP3ScrollReveal from "@/hooks/use-scroll-reveal";
 
-/* ─── scroll reveal hook ──────────────────────────────────────── */
-function useReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      entries => entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add("p3r-in");
-          io.unobserve(e.target);
-        }
-      }),
-      { threshold: 0.06, rootMargin: "0px 0px -40px 0px" }
-    );
-    const el = ref.current;
-    if (el) {
-      el.querySelectorAll(".p3r-reveal, .p3r-reveal-up, .p3r-reveal-scale")
-        .forEach(c => io.observe(c));
-    }
-    return () => io.disconnect();
-  }, []);
-  return ref;
+/* ─── Reusable P3R Components ───────────────────────────────────── */
+
+const P3Divider = () => (
+  <div className="py-8 flex items-center justify-center gap-4">
+    <div
+      className="flex-1 h-px"
+      style={{ background: "linear-gradient(90deg, transparent, hsl(215 100% 50% / 0.5))" }}
+    />
+    <div className="flex gap-2">
+      <div className="p3-diamond" />
+      <div className="p3-diamond-sm" />
+      <div className="p3-diamond" />
+    </div>
+    <div
+      className="flex-1 h-px"
+      style={{ background: "linear-gradient(90deg, hsl(215 100% 50% / 0.5), transparent)" }}
+    />
+  </div>
+);
+
+interface SectionHeaderProps {
+  tag: string;
+  title: string;
+  subtitle?: string;
 }
 
-/* ─── Divider ─────────────────────────────────────────────────── */
-const Divider = () => (
-  <div className="p3r-divider px-12">
-    <div className="p3r-divider-line" />
-    <div className="p3r-divider-diamond" />
-    <div className="p3r-divider-diamond" style={{ width: 5, height: 5 }} />
-    <div className="p3r-divider-diamond" />
-    <div className="p3r-divider-line" />
-  </div>
-);
-
-/* ─── Section Header ──────────────────────────────────────────── */
-const SH = ({ tag, title }: { tag: string; title: string }) => (
-  <div className="text-center mb-16 p3r-reveal-up">
-    <p className="p3r-section-tag mb-3">◆ {tag} ◆</p>
-    <h2 className="p3r-section-title" style={{ fontSize: "clamp(2.8rem,8vw,6rem)" }}>
+const SectionHeader = ({ tag, title, subtitle }: SectionHeaderProps) => (
+  <div className="text-center mb-16 p3-reveal-up">
+    <p
+      className="font-p3-mono text-xs mb-4"
+      style={{ letterSpacing: "0.45em", color: "hsl(190 100% 55%)" }}
+    >
+      ◆ {tag} ◆
+    </p>
+    <h2
+      className="p3-section-title p3-text-glow mb-4"
+      style={{
+        fontSize: "clamp(3rem, 8vw, 6rem)",
+        color: "hsl(210 100% 97%)",
+      }}
+    >
       {title}
     </h2>
-    <div className="p3r-divider mt-4" style={{ maxWidth: 320, margin: "12px auto 0" }}>
-      <div className="p3r-divider-line" />
-      <div className="p3r-divider-diamond" />
-      <div className="p3r-divider-line" />
+    <div className="flex items-center justify-center gap-3 mb-6">
+      <div className="h-[2px] w-24" style={{ background: "linear-gradient(90deg, transparent, hsl(215 100% 50%))" }} />
+      <div className="p3-diamond-sm" />
+      <div className="h-[2px] w-24" style={{ background: "linear-gradient(90deg, hsl(215 100% 50%), transparent)" }} />
     </div>
+    {subtitle && (
+      <p
+        className="font-p3-body text-lg max-w-xl mx-auto"
+        style={{ color: "hsl(215 35% 58%)", lineHeight: 1.7 }}
+      >
+        {subtitle}
+      </p>
+    )}
   </div>
 );
 
-/* ─── Panel card ──────────────────────────────────────────────── */
-const Panel = ({
-  children, className = "", reveal = "up", delay = 0,
-}: {
-  children: React.ReactNode; className?: string;
-  reveal?: "up" | "left" | "scale"; delay?: number;
-}) => {
-  const cls = reveal === "up" ? "p3r-reveal-up" : reveal === "left" ? "p3r-reveal" : "p3r-reveal-scale";
-  const dc  = delay ? `p3r-d${delay}` : "";
+interface P3PanelProps {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  revealDir?: "left" | "right" | "up" | "scale";
+}
+
+const P3Panel = ({ children, className = "", delay = 0, revealDir = "up" }: P3PanelProps) => {
+  const revealClass = {
+    left: "p3-reveal",
+    right: "p3-reveal-right",
+    up: "p3-reveal-up",
+    scale: "p3-reveal-scale",
+  }[revealDir];
+
+  const delayClass = delay > 0 ? `p3-delay-${delay}` : "";
+
   return (
-    <div className={`p3r-section-panel p-6 ${cls} ${dc} ${className}`}>
+    <div className={`p3-panel ${revealClass} ${delayClass} ${className}`}>
       {children}
     </div>
   );
 };
 
-/* ─── Character SVG (P3R-inspired silhouette) ─────────────────── */
-const CharacterArt = () => (
-  <svg
-    viewBox="0 0 340 600"
-    xmlns="http://www.w3.org/2000/svg"
-    style={{ width: "100%", height: "100%", objectFit: "contain" }}
-    className="p3r-character-art"
-  >
-    {/* Body / torso - pale skin */}
-    <ellipse cx="170" cy="340" rx="55" ry="100" fill="#d8eaf8" />
-    {/* Neck */}
-    <rect x="158" y="240" width="24" height="40" rx="8" fill="#dbeeff" />
-    {/* Head */}
-    <ellipse cx="170" cy="210" rx="52" ry="60" fill="#dbeeff" />
+/* ─── Main Component ────────────────────────────────────────────── */
 
-    {/* Hair - long dark blue/black flowing */}
-    <path d="M120,165 Q100,120 118,70 Q135,30 170,20 Q205,30 222,70 Q240,120 220,165"
-      fill="#1a2030" />
-    {/* Hair sides flowing down */}
-    <path d="M120,165 Q80,200 75,290 Q70,360 85,430 Q95,470 110,490"
-      stroke="#1a2030" strokeWidth="22" fill="none" strokeLinecap="round" />
-    <path d="M220,165 Q260,200 265,290 Q270,360 255,430 Q245,470 230,490"
-      stroke="#1a2030" strokeWidth="22" fill="none" strokeLinecap="round" />
-    {/* Hair highlight */}
-    <path d="M145,40 Q160,25 175,22" stroke="#3a4870" strokeWidth="3" fill="none" opacity="0.6" />
-
-    {/* Eyes */}
-    <ellipse cx="152" cy="208" rx="9" ry="10" fill="#1a2a3a" />
-    <ellipse cx="188" cy="208" rx="9" ry="10" fill="#1a2a3a" />
-    {/* Eye shine */}
-    <circle cx="155" cy="205" r="3" fill="white" opacity="0.8" />
-    <circle cx="191" cy="205" r="3" fill="white" opacity="0.8" />
-    {/* Eye color */}
-    <ellipse cx="152" cy="209" rx="6" ry="7" fill="#4488cc" opacity="0.8" />
-    <ellipse cx="188" cy="209" rx="6" ry="7" fill="#4488cc" opacity="0.8" />
-
-    {/* Mouth - slight curve */}
-    <path d="M162,235 Q170,241 178,235" stroke="#c0a0b0" strokeWidth="2" fill="none" />
-
-    {/* Outfit - dark jacket */}
-    <path d="M115,320 Q100,400 105,480 L170,500 L235,480 Q240,400 225,320 Q200,310 170,308 Q140,310 115,320Z"
-      fill="#1a2230" />
-    {/* Outfit collar / detail */}
-    <path d="M155,308 L170,340 L185,308" fill="#223344" opacity="0.8" />
-    {/* Outfit - white shirt visible */}
-    <path d="M155,308 L148,340 L170,360 L192,340 L185,308 L170,330Z"
-      fill="#e8f4ff" opacity="0.9" />
-
-    {/* Arms */}
-    <path d="M115,320 Q90,360 82,420 Q80,450 90,460"
-      stroke="#1a2230" strokeWidth="32" fill="none" strokeLinecap="round" />
-    <path d="M225,320 Q250,360 258,420 Q260,450 250,460"
-      stroke="#1a2230" strokeWidth="32" fill="none" strokeLinecap="round" />
-    {/* Hands */}
-    <ellipse cx="91" cy="467" rx="16" ry="14" fill="#d0e4f5" />
-    <ellipse cx="249" cy="467" rx="16" ry="14" fill="#d0e4f5" />
-
-    {/* Legs */}
-    <path d="M145,480 L138,580" stroke="#2a3545" strokeWidth="30" fill="none" strokeLinecap="round" />
-    <path d="M195,480 L202,580" stroke="#2a3545" strokeWidth="30" fill="none" strokeLinecap="round" />
-
-    {/* Ink splash shapes around character */}
-    {/* Top-left splash */}
-    <path d="M50,80 Q30,50 55,30 Q80,10 95,40 Q110,70 80,90 Q60,100 50,80Z"
-      fill="#111820" opacity="0.85" />
-    <path d="M30,60 Q15,30 40,20 Q55,15 60,35 Q45,45 30,60Z"
-      fill="#111820" opacity="0.7" />
-
-    {/* Top-right splash */}
-    <path d="M265,50 Q290,20 310,45 Q325,65 305,80 Q280,95 260,70 Q255,60 265,50Z"
-      fill="#111820" opacity="0.8" />
-
-    {/* Left side streaks */}
-    <path d="M40,180 Q20,200 35,220 Q50,235 65,215 Q75,200 55,185 Z"
-      fill="#111820" opacity="0.75" />
-    <path d="M25,250 Q5,265 18,280 Q30,292 48,278 Q55,265 38,255Z"
-      fill="#111820" opacity="0.65" />
-
-    {/* Right side drops */}
-    <path d="M295,150 Q315,140 318,165 Q320,185 300,185 Q285,182 290,165Z"
-      fill="#111820" opacity="0.8" />
-    <path d="M310,220 Q328,212 332,235 Q334,252 316,254 Q300,252 305,235Z"
-      fill="#111820" opacity="0.65" />
-
-    {/* Bottom splatter */}
-    <circle cx="80" cy="530" r="18" fill="#111820" opacity="0.7" />
-    <circle cx="65" cy="548" r="10" fill="#111820" opacity="0.6" />
-    <circle cx="260" cy="540" r="15" fill="#111820" opacity="0.7" />
-    <circle cx="275" cy="560" r="8" fill="#111820" opacity="0.55" />
-
-    {/* Flowing hair strands */}
-    <path d="M78,290 Q60,310 65,340 Q70,365 80,380"
-      stroke="#1a2030" strokeWidth="8" fill="none" strokeLinecap="round" opacity="0.9" />
-    <path d="M262,290 Q278,315 274,345 Q270,370 260,385"
-      stroke="#1a2030" strokeWidth="8" fill="none" strokeLinecap="round" opacity="0.9" />
-  </svg>
-);
-
-/* ═══════════════════════════════════════════════════════════════
-   MAIN COMPONENT
-   ═══════════════════════════════════════════════════════════════ */
 const Index = () => {
-  const contentRef = useReveal();
+  const ref = useP3ScrollReveal();
 
-  /* Menu state */
-  const menuItems = [
-    { label: "SKILL",       section: "skills",     desc: "Use a Skill" },
-    { label: "ITEM",        section: "about",      desc: "View Items" },
-    { label: "EQUIP",       section: "experience", desc: "Equipment" },
-    { label: "PERSONA",     section: "about",      desc: "Your Persona" },
-    { label: "STATS",       section: "skills",     desc: "Status Info" },
-    { label: "QUEST",       section: "projects",   desc: "Active Quests" },
-    { label: "SOCIAL LINK", section: "contact",    desc: "Social Links" },
-    { label: "CALENDAR",    section: "experience", desc: "Calendar" },
-    { label: "SYSTEM",      section: "about",      desc: "System Settings" },
+  const coursework = [
+    "Data Analysis",
+    "Data Visualization",
+    "Machine Learning",
+    "Database Systems",
   ];
 
-  const [activeIdx, setActiveIdx] = useState(0);
-
-  /* font sizes matching screenshot proportions */
-  const getFontSize = (i: number) => {
-    const dist = Math.abs(i - activeIdx);
-    if (dist === 0) return "clamp(3.8rem, 7.5vw, 5.8rem)";
-    if (dist === 1) return "clamp(2.6rem, 5vw,  3.9rem)";
-    if (dist === 2) return "clamp(2.2rem, 4.3vw, 3.2rem)";
-    return "clamp(1.9rem, 3.8vw, 2.8rem)";
-  };
-
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  /* ── Data ─────────────────────────────────────────────────── */
-  const coursework   = ["Data Analysis", "Data Visualization", "Machine Learning", "Database Systems"];
-  const certs        = ["Data Analyst In Python · DataCamp", "Work Smarter With Excel · Microsoft",
-                        "Intro To Data Analytics · Meta", "Dashboards & Charts · IBM",
-                        "SQL Fundamentals · DataCamp", "PowerBI Fundamentals · DataCamp"];
-  const techSkills   = [["Python",90],["SQL",85],["Excel",80],["Power BI",75],["Tableau",70]] as [string,number][];
-  const domain       = [
-    ["Data Science",      "End-to-end pipelines from collection to deployment"],
-    ["Machine Learning",  "Building and optimising predictive models"],
-    ["Data Visualisation","Compelling visual stories from complex datasets"],
-    ["EDA",               "Uncovering patterns through statistical analysis"],
-    ["Model Training",    "Training, validating and fine-tuning ML models"],
-    ["Feature Engineering","Creating meaningful features to improve performance"],
+  const certifications = [
+    "Data Analyst In Python · DataCamp",
+    "Work Smarter With Excel · Microsoft",
+    "Introduction To Data Analytics · Meta",
+    "Dashboards and Charts · IBM",
+    "SQL Fundamentals · DataCamp",
+    "PowerBI Fundamentals · DataCamp",
   ];
-  const softSkills   = [
-    ["Teamwork",     Users], ["Communication", MessageSquare],
-    ["Problem Solving", Brain], ["Management", BarChart3],
-  ] as [string, React.ComponentType<any>][];
-  const experiences  = [
-    { title:"Data Science Intern", company:"Digital Empowerment Network",
-      period:"Jul 2025 – Sep 2025", location:"Remote",
-      duties:["Conducted exploratory data analysis identifying key patterns in large datasets",
-              "Developed machine learning models for predictive analytics",
-              "Created interactive dashboards for stakeholder presentations",
-              "Collaborated cross-functionally to deliver data-driven insights"] },
-    { title:"Data Science Intern", company:"DevelopersHub Corporation",
-      period:"Jan 2025 – Jun 2025", location:"Remote",
-      duties:["Built and deployed ML models for classification and regression tasks",
-              "Performed data cleaning, preprocessing, and feature engineering",
-              "Developed automated data pipelines for efficient processing",
-              "Documented processes and presented findings to senior stakeholders"] },
+
+  const technicalSkills = [
+    { name: "Python", level: 90 },
+    { name: "SQL", level: 85 },
+    { name: "Excel", level: 80 },
+    { name: "Power BI", level: 75 },
+    { name: "Tableau", level: 70 },
   ];
-  const projects     = [
-    { title:"Fraud Detection Model", Icon:Search,
-      desc:"Built a machine learning model to detect fraudulent transactions with high accuracy.",
-      techs:["Python","Scikit-learn","Pandas","EDA","Feature Engineering"],
-      highlights:["95%+ detection accuracy","30% reduction in false positives","100K+ transactions processed"] },
-    { title:"Heart Disease Prediction", Icon:Heart,
-      desc:"Developed a predictive model to identify patients at risk using clinical data.",
-      techs:["Python","Machine Learning","Classification","Data Preprocessing"],
-      highlights:["92% ensemble model accuracy","Key risk factors identified","Interactive prediction interface"] },
-    { title:"Titanic Dataset EDA", Icon:Ship,
-      desc:"Comprehensive exploratory analysis uncovering survival patterns and demographics.",
-      techs:["Python","Matplotlib","Seaborn","Statistical Analysis"],
-      highlights:["Survival rate visualised","Key factors uncovered","Comprehensive analysis report"] },
+
+  const domainExpertise = [
+    { title: "Data Science", desc: "End-to-end pipelines from collection to deployment" },
+    { title: "Machine Learning", desc: "Building and optimizing predictive models" },
+    { title: "Data Visualization", desc: "Compelling visual stories from complex datasets" },
+    { title: "Exploratory Analysis", desc: "Uncovering patterns through statistical analysis" },
+    { title: "Model Training", desc: "Training, validating, and fine-tuning ML models" },
+    { title: "Feature Engineering", desc: "Creating meaningful features to improve performance" },
   ];
-  const contactInfo  = [
-    { Icon:Mail,  label:"Email",    value:"ahmedhuzaifamalik@gmail.com", href:"mailto:ahmedhuzaifamalik@gmail.com" },
-    { Icon:Phone, label:"Phone",    value:"(+92) 3175569176",            href:"tel:+923175569176" },
-    { Icon:MapPin,label:"Location", value:"Mansehra, Pakistan",          href: null as string | null },
+
+  const softSkills = [
+    { name: "Teamwork", icon: Users },
+    { name: "Communication", icon: MessageSquare },
+    { name: "Problem Solving", icon: Brain },
+    { name: "Management", icon: BarChart3 },
+  ];
+
+  const experiences = [
+    {
+      title: "Data Science Intern",
+      company: "Digital Empowerment Network",
+      period: "Jul 2025 – Sep 2025",
+      location: "Remote",
+      duties: [
+        "Conducted exploratory data analysis identifying key patterns in large datasets",
+        "Developed machine learning models for predictive analytics",
+        "Created interactive dashboards for stakeholder presentations",
+        "Collaborated cross-functionally to deliver data-driven insights",
+      ],
+    },
+    {
+      title: "Data Science Intern",
+      company: "DevelopersHub Corporation",
+      period: "Jan 2025 – Jun 2025",
+      location: "Remote",
+      duties: [
+        "Built and deployed ML models for classification and regression tasks",
+        "Performed data cleaning, preprocessing, and feature engineering",
+        "Developed automated data pipelines for efficient processing",
+        "Documented processes and presented findings to senior stakeholders",
+      ],
+    },
+  ];
+
+  const projects = [
+    {
+      title: "Fraud Detection Model",
+      icon: Search,
+      desc: "Built a machine learning model to detect fraudulent transactions with high accuracy. Implemented various classification algorithms and compared their performance.",
+      techs: ["Python", "Scikit-learn", "Pandas", "EDA", "Feature Engineering"],
+      highlights: ["95%+ detection accuracy", "30% reduction in false positives", "100K+ transactions processed"],
+    },
+    {
+      title: "Heart Disease Prediction",
+      icon: Heart,
+      desc: "Developed a predictive model to identify patients at risk using clinical data. Applied multiple classification algorithms with cross-validation.",
+      techs: ["Python", "Machine Learning", "Classification", "Data Preprocessing"],
+      highlights: ["92% ensemble model accuracy", "Key risk factors identified", "Interactive prediction interface"],
+    },
+    {
+      title: "Titanic Dataset EDA",
+      icon: Ship,
+      desc: "Performed comprehensive exploratory data analysis on the Titanic dataset, uncovering survival patterns and demographic insights.",
+      techs: ["Python", "Matplotlib", "Seaborn", "Statistical Analysis"],
+      highlights: ["Survival rate visualization", "Key survival factors uncovered", "Comprehensive analysis report"],
+    },
+  ];
+
+  const contactInfo = [
+    { icon: Mail, label: "Email", value: "ahmedhuzaifamalik@gmail.com", href: "mailto:ahmedhuzaifamalik@gmail.com" },
+    { icon: Phone, label: "Phone", value: "(+92) 3175569176", href: "tel:+923175569176" },
+    { icon: MapPin, label: "Location", value: "Mansehra, Pakistan", href: null as string | null },
   ];
 
   return (
-    <div style={{ background: "hsl(192,82%,50%)" }}>
+    <div ref={ref} className="min-h-screen pt-16 overflow-x-hidden" style={{ background: "hsl(220 65% 5%)" }}>
+      <FloatingParticles />
 
-      {/* ════════════════════════════════════════════════
-          HERO — P3R MENU SCREEN
-          ════════════════════════════════════════════════ */}
+      {/* ================================================================
+          HERO SECTION
+          ================================================================ */}
       <section
         id="home"
-        className="relative flex overflow-hidden"
-        style={{ minHeight: "100vh", paddingTop: 56 }}
+        className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-6 overflow-hidden"
       >
-        {/* ── Water background ── */}
-        <div className="absolute inset-0 p3r-water-bg">
-          <div className="p3r-caustics" />
-          <div className="p3r-water-stripes" />
-          {/* extra depth light at top-right */}
-          <div style={{
-            position: "absolute", top: 0, right: "10%", width: "55%", height: "70%",
-            background: "radial-gradient(ellipse 70% 80% at 60% 10%, rgba(200,248,255,0.28) 0%, transparent 65%)",
-            pointerEvents: "none",
-          }} />
-        </div>
-
-        {/* ── Left: character panel ── */}
+        {/* Atmospheric background */}
         <div
-          className="p3r-char-panel relative z-10"
+          className="absolute inset-0"
           style={{
-            width: "clamp(220px, 36%, 440px)",
-            minHeight: "100%",
-            clipPath: "polygon(0 0, 88% 0, 100% 100%, 0 100%)",
+            background: `
+              radial-gradient(ellipse 70% 60% at 50% 80%, hsl(215 100% 30% / 0.2) 0%, transparent 65%),
+              radial-gradient(ellipse 50% 40% at 20% 30%, hsl(215 100% 40% / 0.1) 0%, transparent 60%),
+              hsl(220 65% 5%)
+            `,
           }}
-        >
-          {/* Wallet display */}
-          <div className="p3r-wallet">
-            <div className="p3r-wallet-amount">¥ 73,797</div>
-            <div className="p3r-wallet-label">current wallet</div>
+        />
+
+        {/* Large Tartarus-style concentric circles */}
+        {[600, 480, 360, 240].map((size, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              width: size,
+              height: size,
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              border: `1px solid hsl(215 100% 55% / ${0.04 + i * 0.015})`,
+              boxShadow: i === 0 ? "none" : `0 0 ${20 + i * 10}px hsl(215 100% 50% / ${0.03 + i * 0.01})`,
+            }}
+          />
+        ))}
+
+        {/* Grid lines */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `
+              linear-gradient(hsl(215 100% 55% / 0.04) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(215 100% 55% / 0.04) 1px, transparent 1px)
+            `,
+            backgroundSize: "80px 80px",
+          }}
+        />
+
+        {/* Corner accents */}
+        {[
+          { top: "10%", left: "5%", rot: 0 },
+          { top: "10%", right: "5%", rot: 90 },
+          { bottom: "15%", left: "5%", rot: 270 },
+          { bottom: "15%", right: "5%", rot: 180 },
+        ].map((pos, i) => (
+          <div
+            key={i}
+            className="absolute pointer-events-none"
+            style={{ ...pos, width: 40, height: 40 }}
+          >
+            <svg viewBox="0 0 40 40" fill="none" style={{ transform: `rotate(${pos.rot}deg)` }}>
+              <path d="M0 0 L20 0 L0 20" stroke="hsl(215 100% 55% / 0.4)" strokeWidth="1" />
+            </svg>
+          </div>
+        ))}
+
+        {/* MAIN HERO CONTENT */}
+        <div className="relative z-10 text-center max-w-5xl mx-auto">
+          {/* System tag */}
+          <div
+            className="inline-flex items-center gap-3 mb-8"
+            style={{ animation: "p3-fade-up 0.6s ease both" }}
+          >
+            <div className="p3-diamond-sm" />
+            <span
+              className="font-p3-mono text-xs"
+              style={{ letterSpacing: "0.45em", color: "hsl(190 100% 60%)" }}
+            >
+              SYSTEM_INITIALIZE · TARTARUS_ENTRY
+            </span>
+            <div className="p3-diamond-sm" />
           </div>
 
-          {/* Character artwork */}
+          {/* Name */}
           <div
+            className="mb-2"
             style={{
-              position: "absolute", bottom: 0, left: "5%", right: "12%",
-              height: "90%", display: "flex", alignItems: "flex-end",
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: "clamp(4rem, 14vw, 9rem)",
+              letterSpacing: "0.08em",
+              lineHeight: 0.9,
+              color: "white",
+              textShadow: "0 0 60px hsl(215 100% 55% / 0.4), 0 0 120px hsl(215 100% 50% / 0.2)",
+              animation: "p3-hero-title 1.2s cubic-bezier(0.23, 1, 0.32, 1) both",
             }}
           >
-            <CharacterArt />
+            AHMED
+          </div>
+          <div
+            className="mb-2"
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: "clamp(3.5rem, 12vw, 8rem)",
+              letterSpacing: "0.1em",
+              lineHeight: 0.9,
+              background: "linear-gradient(135deg, hsl(215 100% 65%), hsl(190 100% 60%))",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              animation: "p3-hero-title 1.2s 0.1s cubic-bezier(0.23, 1, 0.32, 1) both",
+            }}
+          >
+            HUZAIFA MALIK
+          </div>
+
+          {/* Role tag */}
+          <div
+            className="flex items-center justify-center gap-4 my-8"
+            style={{ animation: "p3-fade-up 0.7s 0.5s ease both", opacity: 0 }}
+          >
+            <div
+              className="h-px flex-1 max-w-[100px]"
+              style={{ background: "linear-gradient(90deg, transparent, hsl(215 100% 55% / 0.6))" }}
+            />
+            <div
+              className="px-6 py-2 font-p3-ui font-bold text-sm"
+              style={{
+                letterSpacing: "0.35em",
+                color: "hsl(215 100% 70%)",
+                border: "1px solid hsl(215 100% 55% / 0.35)",
+                background: "hsl(215 100% 50% / 0.08)",
+                clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
+              }}
+            >
+              DATA ANALYST · DATA SCIENTIST
+            </div>
+            <div
+              className="h-px flex-1 max-w-[100px]"
+              style={{ background: "linear-gradient(90deg, hsl(215 100% 55% / 0.6), transparent)" }}
+            />
+          </div>
+
+          {/* Subtitle */}
+          <p
+            className="font-p3-body text-lg max-w-xl mx-auto mb-12 leading-relaxed"
+            style={{
+              color: "hsl(215 35% 60%)",
+              animation: "p3-fade-up 0.7s 0.7s ease both",
+              opacity: 0,
+            }}
+          >
+            Transforming raw data into actionable insights through Machine Learning,
+            Statistical Modeling, and Data Visualization.
+          </p>
+
+          {/* CTA Buttons */}
+          <div
+            className="flex flex-col sm:flex-row items-center justify-center gap-5"
+            style={{ animation: "p3-fade-up 0.7s 0.9s ease both", opacity: 0 }}
+          >
+            <button
+              className="p3-btn-primary"
+              onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                View Projects
+                <ArrowRight size={16} />
+              </span>
+            </button>
+            <button
+              className="p3-btn-outline"
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              Get in Touch
+            </button>
           </div>
         </div>
 
-        {/* ── Right: menu items ── */}
+        {/* Scroll indicator */}
         <div
-          className="relative z-10 flex flex-col justify-center"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
           style={{
-            flex: 1,
-            paddingLeft: "clamp(24px, 4vw, 64px)",
-            paddingRight: "clamp(16px, 3vw, 48px)",
-            paddingTop: 40,
-            paddingBottom: 80,
+            animation: "p3-fade-up 0.7s 1.4s ease both, p3-float 3s 2s ease-in-out infinite",
+            opacity: 0,
           }}
         >
-          <div className="p3r-menu-list">
-            {menuItems.map((item, i) => {
-              const isActive = activeIdx === i;
-              return (
-                <button
-                  key={i}
-                  className={`p3r-menu-entry rank-${i} ${isActive ? "is-active" : ""}`}
-                  style={{
-                    fontSize: getFontSize(i),
-                    paddingTop:    isActive ? "2px"  : "1px",
-                    paddingBottom: isActive ? "2px"  : "1px",
-                    paddingLeft:   `${i * 6}px`,
-                  }}
-                  onClick={() => { setActiveIdx(i); scrollTo(item.section); }}
-                  onMouseEnter={() => setActiveIdx(i)}
-                >
-                  <div className="p3r-slash" />
-                  <span className="p3r-label">{item.label}</span>
-                </button>
-              );
-            })}
-          </div>
+          <span
+            className="font-p3-mono text-xs"
+            style={{ letterSpacing: "0.4em", color: "hsl(215 100% 55% / 0.6)" }}
+          >
+            SCROLL
+          </span>
+          <div
+            className="w-px h-12"
+            style={{
+              background: "linear-gradient(180deg, hsl(215 100% 55% / 0.6), transparent)",
+            }}
+          />
+          <ChevronDown size={14} style={{ color: "hsl(215 100% 55% / 0.6)" }} />
         </div>
+      </section>
 
-        {/* ── Controls hint (bottom-right) ── */}
-        <div className="p3r-controls">
-          <div className="p3r-controls-action">{menuItems[activeIdx].desc}</div>
-          <div className="p3r-controls-label">Command</div>
-          <div className="p3r-controls-buttons">
-            <span className="p3r-controls-btn">
-              <span className="p3r-btn-icon">□</span>Confirm
-            </span>
-            <span className="p3r-controls-btn">
-              <span className="p3r-btn-icon" style={{ fontFamily: "monospace" }}>C</span>Close
-            </span>
+      {/* ================================================================
+          ABOUT SECTION
+          ================================================================ */}
+      <section id="about" className="relative py-28 px-6">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 80% 50% at 0% 50%, hsl(215 80% 15% / 0.2) 0%, transparent 60%)",
+          }}
+        />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <SectionHeader
+            tag="PROFILE_DATA"
+            title="ABOUT ME"
+          />
+
+          {/* Summary */}
+          <P3Panel revealDir="up" className="mb-8">
+            <div className="p-8 md:p-12">
+              <p
+                className="font-p3-body text-lg leading-relaxed mb-6"
+                style={{ color: "hsl(215 25% 72%)" }}
+              >
+                I am a passionate{" "}
+                <span
+                  className="font-bold"
+                  style={{ color: "hsl(215 100% 65%)", textShadow: "0 0 12px hsl(215 100% 55% / 0.4)" }}
+                >
+                  Data Analyst and Data Scientist
+                </span>{" "}
+                with a strong foundation in Data Analysis, Machine Learning, and Statistical Modeling.
+                I specialize in extracting valuable insights from complex datasets, building predictive models,
+                and creating compelling visualizations that drive business decisions.
+              </p>
+              <p
+                className="font-p3-body text-lg leading-relaxed"
+                style={{ color: "hsl(215 25% 62%)" }}
+              >
+                With hands-on experience in Python, SQL, and various data science tools,
+                I am committed to continuous learning and applying innovative techniques to solve real-world problems.
+              </p>
+            </div>
+          </P3Panel>
+
+          {/* Education */}
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6 p3-reveal">
+              <GraduationCap size={22} style={{ color: "hsl(215 100% 60%)" }} />
+              <h3
+                className="font-p3-ui font-bold text-xl"
+                style={{ letterSpacing: "0.2em", color: "hsl(210 100% 90%)" }}
+              >
+                EDUCATION
+              </h3>
+            </div>
+            <P3Panel revealDir="left" delay={200}>
+              <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+                <div
+                  className="w-14 h-14 flex items-center justify-center shrink-0"
+                  style={{
+                    background: "linear-gradient(135deg, hsl(215 100% 50% / 0.2), hsl(190 100% 55% / 0.1))",
+                    clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
+                    border: "1px solid hsl(215 100% 50% / 0.3)",
+                  }}
+                >
+                  <GraduationCap size={22} style={{ color: "hsl(215 100% 65%)" }} />
+                </div>
+                <div>
+                  <h4
+                    className="font-p3-ui font-bold text-lg mb-1"
+                    style={{ color: "hsl(210 100% 90%)", letterSpacing: "0.08em" }}
+                  >
+                    BS in Data Science
+                  </h4>
+                  <p className="font-p3-body text-base mb-1" style={{ color: "hsl(215 25% 65%)" }}>
+                    Pak-Austria Fachhochschule: Institute of Applied Sciences and Technology
+                  </p>
+                  <p
+                    className="font-p3-mono text-xs"
+                    style={{ color: "hsl(190 100% 55%)", letterSpacing: "0.2em" }}
+                  >
+                    HARIPUR, PAKISTAN · 2022 – 2026
+                  </p>
+                </div>
+              </div>
+            </P3Panel>
+          </div>
+
+          {/* Coursework + Certifications */}
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <div className="flex items-center gap-3 mb-5 p3-reveal">
+                <BookOpen size={18} style={{ color: "hsl(215 100% 60%)" }} />
+                <h3
+                  className="font-p3-ui font-bold text-sm"
+                  style={{ letterSpacing: "0.25em", color: "hsl(210 100% 90%)" }}
+                >
+                  COURSEWORK
+                </h3>
+              </div>
+              <div className="flex flex-col gap-3">
+                {coursework.map((c, i) => (
+                  <P3Panel key={i} revealDir="left" delay={(i + 1) * 100} className="p3-panel-sm">
+                    <div className="px-5 py-3 flex items-center gap-3">
+                      <div className="p3-diamond-sm shrink-0" style={{ background: "hsl(215 100% 55%)" }} />
+                      <span className="font-p3-body font-semibold text-sm" style={{ color: "hsl(215 25% 72%)" }}>
+                        {c}
+                      </span>
+                    </div>
+                  </P3Panel>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center gap-3 mb-5 p3-reveal">
+                <Award size={18} style={{ color: "hsl(190 100% 55%)" }} />
+                <h3
+                  className="font-p3-ui font-bold text-sm"
+                  style={{ letterSpacing: "0.25em", color: "hsl(210 100% 90%)" }}
+                >
+                  CERTIFICATIONS
+                </h3>
+              </div>
+              <div className="flex flex-col gap-3">
+                {certifications.map((cert, i) => (
+                  <P3Panel key={i} revealDir="right" delay={(i + 1) * 100} className="p3-panel-sm">
+                    <div className="px-5 py-3 flex items-center gap-3">
+                      <div className="p3-diamond-sm shrink-0" style={{ background: "hsl(190 100% 55%)" }} />
+                      <span className="font-p3-body font-semibold text-sm" style={{ color: "hsl(215 25% 72%)" }}>
+                        {cert}
+                      </span>
+                    </div>
+                  </P3Panel>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* All content sections wrapped for reveal hook */}
-      <div ref={contentRef}>
+      <P3Divider />
 
-        {/* ════════════════════════════════════════════════
-            ABOUT
-            ════════════════════════════════════════════════ */}
-        <section id="about" className="p3r-section relative py-24 px-6">
-          <div className="max-w-5xl mx-auto">
-            <SH tag="PERSONA DATA" title="ABOUT ME" />
+      {/* ================================================================
+          SKILLS SECTION
+          ================================================================ */}
+      <section
+        id="skills"
+        className="relative py-28 px-6"
+        style={{
+          background: "linear-gradient(135deg, hsl(220 65% 7% / 0.8) 0%, hsl(220 65% 5%) 100%)",
+        }}
+      >
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 60% 50% at 100% 30%, hsl(215 80% 20% / 0.25) 0%, transparent 60%)",
+          }}
+        />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <SectionHeader tag="PERSONA_STATS" title="SKILLS" />
 
-            <Panel reveal="up" className="mb-8">
-              <p className="p3r-text-body text-lg mb-5">
-                I am a passionate <span className="p3r-highlight">Data Analyst and Data Scientist</span> with
-                a strong foundation in Data Analysis, Machine Learning, and Statistical Modeling. I specialise in
-                extracting valuable insights from complex datasets, building predictive models, and creating
-                compelling visualisations that drive business decisions.
-              </p>
-              <p className="p3r-text-body text-lg">
-                With hands-on experience in Python, SQL, and various data science tools, I am committed to
-                continuous learning and applying innovative techniques to solve real-world problems.
-              </p>
-            </Panel>
-
-            {/* Education */}
-            <div className="mb-12">
-              <div className="flex items-center gap-3 mb-5 p3r-reveal">
-                <GraduationCap size={20} color="white" />
-                <h3 style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:900, fontStyle:"italic",
-                             fontSize:"1rem", letterSpacing:"0.2em", color:"white", textTransform:"uppercase" }}>
-                  Education
-                </h3>
-              </div>
-              <Panel reveal="left" delay={1}>
-                <div className="flex items-center gap-5 flex-wrap">
-                  <div style={{
-                    width:48, height:48, flexShrink:0,
-                    background:"rgba(255,255,255,0.15)",
-                    clipPath:"polygon(50% 0%,100% 50%,50% 100%,0% 50%)",
-                    display:"flex", alignItems:"center", justifyContent:"center",
-                  }}>
-                    <GraduationCap size={20} color="white" />
+          {/* Technical Skills */}
+          <div className="mb-16">
+            <div className="flex items-center gap-3 mb-8 p3-reveal">
+              <Code size={22} style={{ color: "hsl(215 100% 60%)" }} />
+              <h3 className="font-p3-ui font-bold text-lg" style={{ letterSpacing: "0.2em", color: "hsl(210 100% 90%)" }}>
+                TECHNICAL SKILLS
+              </h3>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-5">
+              {technicalSkills.map((skill, i) => (
+                <P3Panel key={i} revealDir="up" delay={i * 100} className="p3-panel-sm">
+                  <div className="p-5">
+                    <div className="flex justify-between items-center mb-3">
+                      <span
+                        className="font-p3-ui font-bold text-sm"
+                        style={{ letterSpacing: "0.15em", color: "hsl(210 100% 90%)" }}
+                      >
+                        {skill.name}
+                      </span>
+                      <span
+                        className="font-p3-mono text-xs"
+                        style={{ color: "hsl(190 100% 55%)" }}
+                      >
+                        {skill.level}%
+                      </span>
+                    </div>
+                    <div className="p3-stat-bar">
+                      <div
+                        className="p3-stat-fill"
+                        style={{ width: `${skill.level}%`, transition: "width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)" }}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <p style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:800, fontStyle:"italic",
-                                fontSize:"1.1rem", color:"white", textTransform:"uppercase",
-                                letterSpacing:"0.05em" }}>
-                      BS in Data Science
+                </P3Panel>
+              ))}
+            </div>
+          </div>
+
+          {/* Domain Expertise */}
+          <div className="mb-16">
+            <div className="flex items-center gap-3 mb-8 p3-reveal">
+              <Brain size={22} style={{ color: "hsl(190 100% 55%)" }} />
+              <h3 className="font-p3-ui font-bold text-lg" style={{ letterSpacing: "0.2em", color: "hsl(210 100% 90%)" }}>
+                DOMAIN EXPERTISE
+              </h3>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {domainExpertise.map((d, i) => (
+                <P3Panel key={i} revealDir="scale" delay={i * 100}>
+                  <div className="p-6 group">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div
+                        className="w-6 h-6 flex items-center justify-center"
+                        style={{
+                          background: "linear-gradient(135deg, hsl(215 100% 50% / 0.2), hsl(190 100% 55% / 0.1))",
+                          clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
+                        }}
+                      />
+                      <h4
+                        className="font-p3-ui font-bold text-sm"
+                        style={{ letterSpacing: "0.12em", color: "hsl(210 100% 90%)" }}
+                      >
+                        {d.title}
+                      </h4>
+                    </div>
+                    <p className="font-p3-body text-sm leading-relaxed" style={{ color: "hsl(215 25% 58%)" }}>
+                      {d.desc}
                     </p>
-                    <p className="p3r-text-body text-sm">Pak-Austria Fachhochschule, Haripur, Pakistan</p>
-                    <p className="p3r-section-tag" style={{ fontSize:"0.55rem" }}>2022 – 2026</p>
                   </div>
-                </div>
-              </Panel>
-            </div>
-
-            {/* Coursework + Certifications */}
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <div className="flex items-center gap-3 mb-4 p3r-reveal">
-                  <BookOpen size={16} color="white" />
-                  <h4 style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:800, fontStyle:"italic",
-                               fontSize:"0.8rem", letterSpacing:"0.25em", color:"white",
-                               textTransform:"uppercase" }}>Coursework</h4>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {coursework.map((c,i) => (
-                    <Panel key={i} reveal="left" delay={(i+1) as any} className="py-3 px-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p3r-divider-diamond" style={{width:6,height:6,flexShrink:0}} />
-                        <span className="p3r-text-body text-sm font-semibold">{c}</span>
-                      </div>
-                    </Panel>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center gap-3 mb-4 p3r-reveal">
-                  <Award size={16} color="white" />
-                  <h4 style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:800, fontStyle:"italic",
-                               fontSize:"0.8rem", letterSpacing:"0.25em", color:"white",
-                               textTransform:"uppercase" }}>Certifications</h4>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {certs.map((c,i) => (
-                    <Panel key={i} reveal="scale" delay={(i+1) as any} className="py-3 px-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p3r-divider-diamond" style={{width:6,height:6,flexShrink:0,
-                          background:"rgba(255,255,255,0.5)"}} />
-                        <span className="p3r-text-body text-sm font-semibold">{c}</span>
-                      </div>
-                    </Panel>
-                  ))}
-                </div>
-              </div>
+                </P3Panel>
+              ))}
             </div>
           </div>
-        </section>
 
-        <Divider />
-
-        {/* ════════════════════════════════════════════════
-            SKILLS
-            ════════════════════════════════════════════════ */}
-        <section id="skills" className="p3r-section relative py-24 px-6">
-          <div className="max-w-5xl mx-auto">
-            <SH tag="PERSONA STATS" title="SKILLS" />
-
-            {/* Technical */}
-            <div className="mb-14">
-              <div className="flex items-center gap-3 mb-6 p3r-reveal">
-                <Code size={20} color="white" />
-                <h3 style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:900, fontStyle:"italic",
-                             fontSize:"1rem", letterSpacing:"0.2em", color:"white",
-                             textTransform:"uppercase" }}>Technical Skills</h3>
-              </div>
-              <div className="grid sm:grid-cols-2 gap-4">
-                {techSkills.map(([name, level], i) => (
-                  <Panel key={i} reveal="up" delay={(i+1) as any} className="py-4 px-5">
-                    <div className="flex justify-between mb-3">
-                      <span style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:800, fontStyle:"italic",
-                                     fontSize:"0.9rem", letterSpacing:"0.1em", color:"white",
-                                     textTransform:"uppercase" }}>{name}</span>
-                      <span className="p3r-section-tag" style={{ fontSize:"0.7rem" }}>{level}%</span>
-                    </div>
-                    <div className="p3r-bar-track">
-                      <div className="p3r-bar-fill" style={{ width:`${level}%` }} />
-                    </div>
-                  </Panel>
-                ))}
-              </div>
+          {/* Soft Skills */}
+          <div>
+            <div className="flex items-center gap-3 mb-8 p3-reveal">
+              <Users size={22} style={{ color: "hsl(215 100% 60%)" }} />
+              <h3 className="font-p3-ui font-bold text-lg" style={{ letterSpacing: "0.2em", color: "hsl(210 100% 90%)" }}>
+                SOCIAL STATS
+              </h3>
             </div>
-
-            {/* Domain */}
-            <div className="mb-14">
-              <div className="flex items-center gap-3 mb-6 p3r-reveal">
-                <Brain size={20} color="white" />
-                <h3 style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:900, fontStyle:"italic",
-                             fontSize:"1rem", letterSpacing:"0.2em", color:"white",
-                             textTransform:"uppercase" }}>Domain Expertise</h3>
-              </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {domain.map(([title, desc], i) => (
-                  <Panel key={i} reveal="scale" delay={(i+1) as any} className="py-5 px-5">
-                    <p style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:800, fontStyle:"italic",
-                                fontSize:"0.85rem", letterSpacing:"0.08em", color:"white",
-                                textTransform:"uppercase", marginBottom:6 }}>{title}</p>
-                    <p className="p3r-text-body text-sm">{desc}</p>
-                  </Panel>
-                ))}
-              </div>
-            </div>
-
-            {/* Soft Skills */}
-            <div>
-              <div className="flex items-center gap-3 mb-6 p3r-reveal">
-                <Users size={20} color="white" />
-                <h3 style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:900, fontStyle:"italic",
-                             fontSize:"1rem", letterSpacing:"0.2em", color:"white",
-                             textTransform:"uppercase" }}>Social Stats</h3>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {softSkills.map(([name, Icon], i) => (
-                  <Panel key={i} reveal="up" delay={(i+1) as any} className="py-6 text-center">
-                    <Icon size={28} color="rgba(255,255,255,0.75)" style={{ margin:"0 auto 10px" }} />
-                    <p style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:700, fontStyle:"italic",
-                                fontSize:"0.75rem", letterSpacing:"0.1em", color:"rgba(255,255,255,0.85)",
-                                textTransform:"uppercase" }}>{name}</p>
-                  </Panel>
-                ))}
-              </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+              {softSkills.map((s, i) => (
+                <P3Panel key={i} revealDir="up" delay={i * 100}>
+                  <div className="p-6 text-center group">
+                    <s.icon
+                      size={32}
+                      className="mx-auto mb-3 transition-all duration-300"
+                      style={{
+                        color: "hsl(215 100% 55% / 0.5)",
+                        filter: "drop-shadow(0 0 0px transparent)",
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.target as SVGElement).style.color = "hsl(215 100% 65%)";
+                        (e.target as SVGElement).style.filter = "drop-shadow(0 0 8px hsl(215 100% 55% / 0.6))";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.target as SVGElement).style.color = "hsl(215 100% 55% / 0.5)";
+                        (e.target as SVGElement).style.filter = "drop-shadow(0 0 0px transparent)";
+                      }}
+                    />
+                    <p
+                      className="font-p3-ui font-semibold text-xs"
+                      style={{ letterSpacing: "0.12em", color: "hsl(215 25% 72%)" }}
+                    >
+                      {s.name}
+                    </p>
+                  </div>
+                </P3Panel>
+              ))}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <Divider />
+      <P3Divider />
 
-        {/* ════════════════════════════════════════════════
-            EXPERIENCE
-            ════════════════════════════════════════════════ */}
-        <section id="experience" className="p3r-section relative py-24 px-6">
-          <div className="max-w-5xl mx-auto">
-            <SH tag="BATTLE RECORD" title="EXPERIENCE" />
+      {/* ================================================================
+          EXPERIENCE SECTION
+          ================================================================ */}
+      <section id="experience" className="relative py-28 px-6">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 70% 50% at 10% 60%, hsl(215 80% 15% / 0.2) 0%, transparent 60%)",
+          }}
+        />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <SectionHeader tag="BATTLE_RECORD" title="EXPERIENCE" />
 
-            <div className="flex flex-col gap-10">
+          <div className="relative">
+            {/* Timeline line */}
+            <div
+              className="absolute left-4 top-0 bottom-0 w-px md:hidden"
+              style={{
+                background: "linear-gradient(180deg, transparent, hsl(215 100% 50% / 0.6) 15%, hsl(190 100% 55% / 0.4) 85%, transparent)",
+                boxShadow: "0 0 6px hsl(215 100% 55% / 0.3)",
+              }}
+            />
+
+            <div className="flex flex-col gap-12 md:gap-16">
               {experiences.map((exp, i) => (
-                <Panel key={i} reveal={i % 2 === 0 ? "left" : "scale"} delay={1} className="p-6 md:p-8">
-                  <div className="flex flex-wrap items-start justify-between gap-4 mb-5">
-                    <div>
-                      <p style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:900, fontStyle:"italic",
-                                  fontSize:"1.3rem", color:"white", textTransform:"uppercase",
-                                  letterSpacing:"0.05em", marginBottom:4 }}>{exp.title}</p>
-                      <div className="flex flex-wrap gap-4 items-center">
-                        <span className="p3r-text-body text-sm flex items-center gap-1.5">
-                          <Briefcase size={13} color="rgba(255,255,255,0.6)" />{exp.company}
-                        </span>
-                        <span className="p3r-text-body text-sm flex items-center gap-1.5">
-                          <MapPin size={13} color="rgba(255,255,255,0.6)" />{exp.location}
-                        </span>
+                <div key={i} className="relative pl-12 md:pl-0">
+                  {/* Mobile timeline dot */}
+                  <div
+                    className="absolute left-[9px] top-4 w-4 h-4 rotate-45 md:hidden"
+                    style={{
+                      background: "hsl(215 100% 55%)",
+                      boxShadow: "0 0 10px hsl(215 100% 55% / 0.6)",
+                    }}
+                  />
+
+                  <P3Panel revealDir={i % 2 === 0 ? "left" : "right"} delay={100}>
+                    <div className="p-6 md:p-8">
+                      {/* Header row */}
+                      <div className="flex flex-wrap items-start justify-between gap-4 mb-5">
+                        <div>
+                          <h4
+                            className="font-p3-ui font-bold text-xl mb-1"
+                            style={{ letterSpacing: "0.12em", color: "hsl(215 100% 70%)", textShadow: "0 0 15px hsl(215 100% 55% / 0.3)" }}
+                          >
+                            {exp.title}
+                          </h4>
+                          <div className="flex flex-wrap items-center gap-4">
+                            <span className="flex items-center gap-1.5 font-p3-body text-sm" style={{ color: "hsl(215 25% 65%)" }}>
+                              <Briefcase size={14} style={{ color: "hsl(215 100% 55% / 0.6)" }} />
+                              {exp.company}
+                            </span>
+                            <span className="flex items-center gap-1.5 font-p3-body text-sm" style={{ color: "hsl(215 25% 55%)" }}>
+                              <MapPin size={14} style={{ color: "hsl(215 100% 55% / 0.5)" }} />
+                              {exp.location}
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          className="flex items-center gap-2 font-p3-mono text-xs px-4 py-2"
+                          style={{
+                            color: "hsl(190 100% 60%)",
+                            background: "hsl(190 100% 55% / 0.08)",
+                            border: "1px solid hsl(190 100% 55% / 0.25)",
+                            clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)",
+                            letterSpacing: "0.1em",
+                          }}
+                        >
+                          <Calendar size={12} />
+                          {exp.period}
+                        </div>
                       </div>
+
+                      {/* Divider line */}
+                      <div
+                        className="h-px mb-5"
+                        style={{ background: "linear-gradient(90deg, hsl(215 100% 50% / 0.4), transparent)" }}
+                      />
+
+                      {/* Duties */}
+                      <ul className="flex flex-col gap-3">
+                        {exp.duties.map((duty, j) => (
+                          <li key={j} className="flex items-start gap-3">
+                            <div
+                              className="shrink-0 mt-1.5 w-1.5 h-1.5 rotate-45"
+                              style={{ background: "hsl(215 100% 55% / 0.7)" }}
+                            />
+                            <span
+                              className="font-p3-body text-sm leading-relaxed"
+                              style={{ color: "hsl(215 25% 63%)" }}
+                            >
+                              {duty}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <div style={{
-                      padding:"4px 14px", background:"rgba(255,255,255,0.12)",
-                      border:"1px solid rgba(255,255,255,0.25)",
-                      fontFamily:"'Share Tech Mono',monospace", fontSize:"0.65rem",
-                      color:"rgba(255,255,255,0.85)", letterSpacing:"0.1em",
-                      display:"flex", alignItems:"center", gap:6, flexShrink:0,
-                    }}>
-                      <Calendar size={11} />{exp.period}
-                    </div>
-                  </div>
-                  <div style={{height:1, background:"linear-gradient(90deg,rgba(255,255,255,0.3),transparent)", marginBottom:16}} />
-                  <ul className="flex flex-col gap-2.5">
-                    {exp.duties.map((d,j) => (
-                      <li key={j} className="flex items-start gap-3">
-                        <div style={{width:6,height:6,background:"rgba(255,255,255,0.6)",
-                                     transform:"rotate(45deg)",flexShrink:0,marginTop:6}} />
-                        <span className="p3r-text-body text-sm">{d}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </Panel>
+                  </P3Panel>
+                </div>
               ))}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <Divider />
+      <P3Divider />
 
-        {/* ════════════════════════════════════════════════
-            PROJECTS
-            ════════════════════════════════════════════════ */}
-        <section id="projects" className="p3r-section relative py-24 px-6">
-          <div className="max-w-5xl mx-auto">
-            <SH tag="SHADOW OPERATIONS" title="PROJECTS" />
+      {/* ================================================================
+          PROJECTS SECTION
+          ================================================================ */}
+      <section
+        id="projects"
+        className="relative py-28 px-6"
+        style={{
+          background: "linear-gradient(180deg, hsl(220 65% 5%), hsl(220 60% 7% / 0.8) 50%, hsl(220 65% 5%))",
+        }}
+      >
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 80% 50% at 80% 30%, hsl(190 100% 30% / 0.15) 0%, transparent 60%)",
+          }}
+        />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <SectionHeader
+            tag="SHADOW_OPERATIONS"
+            title="PROJECTS"
+            subtitle="A collection of data science operations showcasing skills in machine learning, analysis, and visualization."
+          />
 
-            <div className="flex flex-col gap-8">
-              {projects.map(({ title, Icon, desc, techs, highlights }, i) => (
-                <Panel key={i} reveal="scale" delay={(i+1) as any} className="p-6 md:p-8">
-                  <div className="flex items-start gap-5 mb-5">
-                    <div style={{
-                      width:52, height:52, flexShrink:0,
-                      background:"rgba(255,255,255,0.12)",
-                      clipPath:"polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))",
-                      border:"1px solid rgba(255,255,255,0.2)",
-                      display:"flex", alignItems:"center", justifyContent:"center",
-                    }}>
-                      <Icon size={22} color="white" />
+          <div className="flex flex-col gap-10">
+            {projects.map((proj, i) => (
+              <P3Panel key={i} revealDir="scale" delay={i * 150}>
+                <div className="p-6 md:p-10">
+                  {/* Card header */}
+                  <div className="flex items-start gap-5 mb-6">
+                    <div
+                      className="w-14 h-14 flex items-center justify-center shrink-0"
+                      style={{
+                        background: "linear-gradient(135deg, hsl(215 100% 50% / 0.15), hsl(190 100% 55% / 0.08))",
+                        clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))",
+                        border: "1px solid hsl(215 100% 50% / 0.3)",
+                      }}
+                    >
+                      <proj.icon size={24} style={{ color: "hsl(215 100% 65%)" }} />
                     </div>
                     <div>
-                      <p style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:900, fontStyle:"italic",
-                                  fontSize:"1.4rem", color:"white", textTransform:"uppercase",
-                                  letterSpacing:"0.06em", marginBottom:4 }}>{title}</p>
-                      <p className="p3r-text-body text-sm">{desc}</p>
+                      <h4
+                        className="font-p3-ui font-black text-2xl mb-1"
+                        style={{ letterSpacing: "0.1em", color: "hsl(210 100% 92%)" }}
+                      >
+                        {proj.title}
+                      </h4>
+                      <p className="font-p3-body text-sm" style={{ color: "hsl(215 25% 55%)" }}>
+                        {proj.desc}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {techs.map((t,j) => <span key={j} className="p3r-badge">{t}</span>)}
-                  </div>
-
-                  <div style={{height:1, background:"linear-gradient(90deg,rgba(255,255,255,0.3),transparent)", marginBottom:14}} />
-                  <p className="p3r-section-tag mb-3">◆ KEY ACHIEVEMENTS</p>
-                  <ul className="flex flex-col gap-2">
-                    {highlights.map((h,j) => (
-                      <li key={j} className="flex items-center gap-3">
-                        <div style={{width:7,height:7,background:"rgba(255,255,255,0.65)",
-                                     transform:"rotate(45deg)",flexShrink:0,
-                                     boxShadow:"0 0 5px rgba(255,255,255,0.4)"}} />
-                        <span className="p3r-text-body text-sm">{h}</span>
-                      </li>
+                  {/* Tech tags */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {proj.techs.map((tech, j) => (
+                      <span key={j} className="p3-tag">{tech}</span>
                     ))}
-                  </ul>
-                </Panel>
-              ))}
-            </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div
+                    className="h-px mb-5"
+                    style={{ background: "linear-gradient(90deg, hsl(190 100% 55% / 0.4), transparent)" }}
+                  />
+
+                  {/* Highlights */}
+                  <div>
+                    <p
+                      className="font-p3-mono text-xs mb-3"
+                      style={{ letterSpacing: "0.3em", color: "hsl(190 100% 55%)" }}
+                    >
+                      ◆ KEY_ACHIEVEMENTS
+                    </p>
+                    <ul className="flex flex-col gap-2">
+                      {proj.highlights.map((h, j) => (
+                        <li key={j} className="flex items-center gap-3">
+                          <div
+                            className="shrink-0 w-2 h-2 rotate-45"
+                            style={{
+                              background: "hsl(190 100% 55%)",
+                              boxShadow: "0 0 6px hsl(190 100% 55% / 0.5)",
+                            }}
+                          />
+                          <span className="font-p3-body text-sm" style={{ color: "hsl(215 25% 67%)" }}>
+                            {h}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </P3Panel>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <Divider />
+      <P3Divider />
 
-        {/* ════════════════════════════════════════════════
-            CONTACT
-            ════════════════════════════════════════════════ */}
-        <section id="contact" className="p3r-section relative py-24 px-6">
-          <div className="max-w-5xl mx-auto">
-            <SH tag="LINK SYSTEM" title="CONTACT" />
+      {/* ================================================================
+          CONTACT SECTION
+          ================================================================ */}
+      <section id="contact" className="relative py-28 px-6">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 60% 60% at 50% 100%, hsl(215 100% 20% / 0.2) 0%, transparent 70%)",
+          }}
+        />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <SectionHeader
+            tag="LINK_SYSTEM"
+            title="CONTACT"
+            subtitle="Always open to discussing opportunities, collaborations, or having a chat about data science."
+          />
 
-            {/* LinkedIn card */}
-            <div className="mb-10 p3r-reveal-up">
-              <a href="https://www.linkedin.com/in/ahmed-huzaifa-malik/" target="_blank" rel="noopener noreferrer">
-                <div className="p3r-section-panel p-8 md:p-10 group cursor-pointer" style={{ transition:"all 0.3s ease" }}>
-                  <div className="flex flex-col md:flex-row items-center gap-8">
-                    <div style={{
-                      width:96, height:96, flexShrink:0,
-                      background:"rgba(255,255,255,0.12)",
-                      clipPath:"polygon(50% 0%,100% 50%,50% 100%,0% 50%)",
-                      border:"1px solid rgba(255,255,255,0.3)",
-                      display:"flex", alignItems:"center", justifyContent:"center",
-                    }}>
-                      <span style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:900, fontStyle:"italic",
-                                     fontSize:"1.5rem", color:"white" }}>AH</span>
+          {/* LinkedIn Feature Card */}
+          <div className="mb-12 p3-reveal-scale">
+            <a
+              href="https://www.linkedin.com/in/ahmed-huzaifa-malik/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
+              <div className="p3-panel group cursor-pointer">
+                <div className="p-8 md:p-12 relative overflow-hidden">
+                  {/* Hover shimmer */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{
+                      background: "linear-gradient(135deg, hsl(215 100% 50% / 0.06) 0%, hsl(190 100% 55% / 0.04) 100%)",
+                    }}
+                  />
+
+                  <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
+                    {/* Avatar diamond */}
+                    <div
+                      className="w-28 h-28 flex items-center justify-center shrink-0"
+                      style={{
+                        background: "linear-gradient(135deg, hsl(215 100% 50% / 0.15), hsl(190 100% 55% / 0.08))",
+                        clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
+                        border: "1px solid hsl(215 100% 50% / 0.3)",
+                        boxShadow: "0 0 30px hsl(215 100% 50% / 0.15)",
+                        transition: "all 0.4s ease",
+                      }}
+                    >
+                      <span
+                        className="font-p3-display text-2xl"
+                        style={{ color: "hsl(215 100% 65%)", textShadow: "0 0 15px hsl(215 100% 55% / 0.5)" }}
+                      >
+                        AH
+                      </span>
                     </div>
+
                     <div className="text-center md:text-left flex-1">
-                      <p style={{ fontFamily:"'Exo 2',sans-serif", fontWeight:900, fontStyle:"italic",
-                                  fontSize:"1.6rem", color:"white", textTransform:"uppercase",
-                                  letterSpacing:"0.06em", marginBottom:6 }}>Ahmed Huzaifa Malik</p>
-                      <p className="p3r-text-body mb-5">Data Analyst · Data Scientist</p>
-                      <div style={{
-                        display:"inline-flex", alignItems:"center", gap:8,
-                        padding:"6px 18px", background:"rgba(255,255,255,0.12)",
-                        border:"1px solid rgba(255,255,255,0.3)",
-                        fontFamily:"'Exo 2',sans-serif", fontWeight:700, fontStyle:"italic",
-                        fontSize:"0.75rem", letterSpacing:"0.2em", color:"white",
-                        textTransform:"uppercase",
-                      }}>
-                        <Linkedin size={14} />Connect on LinkedIn<ExternalLink size={12} />
+                      <h3
+                        className="font-p3-ui font-black text-2xl md:text-3xl mb-2"
+                        style={{ letterSpacing: "0.1em", color: "hsl(210 100% 95%)", textShadow: "0 0 20px hsl(215 100% 55% / 0.2)" }}
+                      >
+                        Ahmed Huzaifa Malik
+                      </h3>
+                      <p
+                        className="font-p3-body text-base mb-5"
+                        style={{ color: "hsl(215 25% 60%)" }}
+                      >
+                        Data Analyst
+                        <span className="mx-3 inline-block w-2 h-2 rotate-45 bg-current opacity-50" />
+                        Data Scientist
+                      </p>
+                      <div
+                        className="inline-flex items-center gap-3 font-p3-ui font-bold text-xs px-5 py-2.5 transition-all duration-300 group-hover:shadow-[0_0_20px_hsl(190_100%_55%/0.3)]"
+                        style={{
+                          letterSpacing: "0.2em",
+                          color: "hsl(190 100% 60%)",
+                          border: "1px solid hsl(190 100% 55% / 0.4)",
+                          background: "hsl(190 100% 55% / 0.08)",
+                          clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)",
+                        }}
+                      >
+                        <Linkedin size={14} />
+                        CONNECT ON LINKEDIN
+                        <ExternalLink size={12} />
                       </div>
                     </div>
                   </div>
                 </div>
-              </a>
-            </div>
+              </div>
+            </a>
+          </div>
 
-            {/* Contact info grid */}
-            <div className="grid md:grid-cols-3 gap-4">
-              {contactInfo.map(({ Icon, label, value, href }, i) => (
-                <Panel key={i} reveal="up" delay={(i+1) as any} className="p-6 text-center">
-                  {href ? (
-                    <a href={href} target={href.startsWith("mailto") ? undefined : "_blank"}
-                       rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}>
-                      <Icon size={26} color="rgba(255,255,255,0.7)" style={{ margin:"0 auto 10px" }} />
-                      <p className="p3r-section-tag mb-1">{label}</p>
-                      <p className="p3r-text-body text-sm font-semibold">{value}</p>
+          {/* Contact Info Grid */}
+          <div className="grid md:grid-cols-3 gap-5">
+            {contactInfo.map((info, i) => (
+              <P3Panel key={i} revealDir="up" delay={i * 150} className="p3-panel-sm">
+                <div className="p-6 text-center">
+                  {info.href ? (
+                    <a
+                      href={info.href}
+                      target={info.href.startsWith("mailto") ? undefined : "_blank"}
+                      rel={info.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                      className="block group"
+                    >
+                      <info.icon
+                        size={28}
+                        className="mx-auto mb-4 transition-all duration-300"
+                        style={{ color: "hsl(215 100% 55% / 0.55)" }}
+                      />
+                      <p
+                        className="font-p3-mono text-xs mb-2"
+                        style={{ letterSpacing: "0.3em", color: "hsl(215 35% 50%)" }}
+                      >
+                        {info.label}
+                      </p>
+                      <p
+                        className="font-p3-body font-semibold text-sm"
+                        style={{ color: "hsl(215 25% 75%)" }}
+                      >
+                        {info.value}
+                      </p>
                     </a>
                   ) : (
                     <>
-                      <Icon size={26} color="rgba(255,255,255,0.7)" style={{ margin:"0 auto 10px" }} />
-                      <p className="p3r-section-tag mb-1">{label}</p>
-                      <p className="p3r-text-body text-sm font-semibold">{value}</p>
+                      <info.icon
+                        size={28}
+                        className="mx-auto mb-4"
+                        style={{ color: "hsl(215 100% 55% / 0.55)" }}
+                      />
+                      <p
+                        className="font-p3-mono text-xs mb-2"
+                        style={{ letterSpacing: "0.3em", color: "hsl(215 35% 50%)" }}
+                      >
+                        {info.label}
+                      </p>
+                      <p
+                        className="font-p3-body font-semibold text-sm"
+                        style={{ color: "hsl(215 25% 75%)" }}
+                      >
+                        {info.value}
+                      </p>
                     </>
                   )}
-                </Panel>
-              ))}
-            </div>
-
-            {/* Footer */}
-            <div className="text-center mt-20 p3r-reveal-up">
-              <div className="p3r-divider" style={{ maxWidth:400, margin:"0 auto 14px" }}>
-                <div className="p3r-divider-line" />
-                <div className="p3r-divider-diamond" />
-                <div className="p3r-divider-diamond" style={{width:5,height:5}} />
-                <div className="p3r-divider-diamond" />
-                <div className="p3r-divider-line" />
-              </div>
-              <p className="p3r-section-tag">// END TRANSMISSION · TARTARUS EXIT</p>
-            </div>
+                </div>
+              </P3Panel>
+            ))}
           </div>
-        </section>
 
-      </div>
+          {/* Footer */}
+          <div className="text-center mt-24 p3-reveal-up">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div
+                className="h-px flex-1 max-w-[80px]"
+                style={{ background: "linear-gradient(90deg, transparent, hsl(215 100% 50% / 0.4))" }}
+              />
+              <div className="p3-diamond" />
+              <div className="p3-diamond-sm" />
+              <div className="p3-diamond" />
+              <div
+                className="h-px flex-1 max-w-[80px]"
+                style={{ background: "linear-gradient(90deg, hsl(215 100% 50% / 0.4), transparent)" }}
+              />
+            </div>
+            <p
+              className="font-p3-mono text-xs"
+              style={{ letterSpacing: "0.4em", color: "hsl(215 100% 55% / 0.4)" }}
+            >
+              // END_TRANSMISSION · TARTARUS_EXIT
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
