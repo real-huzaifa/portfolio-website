@@ -43,9 +43,9 @@ const Navigation = () => {
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
           background: scrolled
-            ? "linear-gradient(180deg, hsl(220 65% 5% / 0.97) 0%, hsl(220 60% 7% / 0.95) 100%)"
-            : "linear-gradient(180deg, hsl(220 65% 5% / 0.9) 0%, transparent 100%)",
-          borderBottom: scrolled ? "1px solid hsl(215 100% 50% / 0.25)" : "1px solid transparent",
+            ? "linear-gradient(180deg, hsl(0 0% 5% / 0.97) 0%, hsl(0 0% 7% / 0.95) 100%)"
+            : "linear-gradient(180deg, hsl(0 0% 5% / 0.9) 0%, transparent 100%)",
+          borderBottom: scrolled ? "1px solid hsl(0 0% 50% / 0.25)" : "1px solid transparent",
           backdropFilter: scrolled ? "blur(20px) saturate(1.5)" : "none",
         }}
       >
@@ -63,9 +63,9 @@ const Navigation = () => {
                 <div
                   className="w-7 h-7 flex items-center justify-center"
                   style={{
-                    background: "linear-gradient(135deg, hsl(215 100% 50%), hsl(190 100% 55%))",
+                    background: "linear-gradient(135deg, hsl(0 0% 50%), hsl(0 0% 55%))",
                     clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
-                    boxShadow: "0 0 15px hsl(215 100% 50% / 0.5)",
+                    boxShadow: "0 0 15px hsl(0 0% 50% / 0.5)",
                   }}
                 >
                   <span style={{ fontSize: "0.65rem", color: "white", fontWeight: 900 }}>P3</span>
@@ -73,8 +73,8 @@ const Navigation = () => {
                 <span
                   className="text-xl"
                   style={{
-                    color: "hsl(215 100% 65%)",
-                    textShadow: "0 0 15px hsl(215 100% 55% / 0.6)",
+                    color: "hsl(0 0% 65%)",
+                    textShadow: "0 0 15px hsl(0 0% 55% / 0.6)",
                   }}
                 >
                   AHM
@@ -92,8 +92,8 @@ const Navigation = () => {
                     onClick={() => scrollTo(item.href)}
                     className="p3-nav-link"
                     style={{
-                      color: isActive ? "hsl(215 100% 65%)" : "hsl(215 35% 55%)",
-                      textShadow: isActive ? "0 0 10px hsl(215 100% 55% / 0.5)" : "none",
+                      color: isActive ? "hsl(0 0% 65%)" : "hsl(0 0% 55%)",
+                      textShadow: isActive ? "0 0 10px hsl(0 0% 55% / 0.5)" : "none",
                     }}
                   >
                     {item.name}
@@ -101,8 +101,8 @@ const Navigation = () => {
                       <span
                         className="absolute bottom-[-2px] left-0 w-full h-[2px]"
                         style={{
-                          background: "linear-gradient(90deg, hsl(215 100% 50%), hsl(190 100% 55%))",
-                          boxShadow: "0 0 8px hsl(215 100% 50% / 0.6)",
+                          background: "linear-gradient(90deg, hsl(0 0% 50%), hsl(0 0% 55%))",
+                          boxShadow: "0 0 8px hsl(0 0% 50% / 0.6)",
                         }}
                       />
                     )}
@@ -123,8 +123,8 @@ const Navigation = () => {
                   className="block h-[2px] transition-all duration-300"
                   style={{
                     width: i === 1 ? (isOpen ? 20 : 14) : 20,
-                    background: "hsl(215 100% 60%)",
-                    boxShadow: "0 0 6px hsl(215 100% 55% / 0.5)",
+                    background: "hsl(0 0% 60%)",
+                    boxShadow: "0 0 6px hsl(0 0% 55% / 0.5)",
                     transform: isOpen
                       ? i === 0 ? "rotate(45deg) translate(5px, 5px)"
                       : i === 2 ? "rotate(-45deg) translate(5px, -5px)"
@@ -143,7 +143,7 @@ const Navigation = () => {
       {isOpen && (
         <div
           className="fixed inset-0 z-40 md:hidden"
-          style={{ background: "hsl(220 65% 5% / 0.98)", backdropFilter: "blur(20px)" }}
+          style={{ background: "hsl(0 0% 5% / 0.98)", backdropFilter: "blur(20px)" }}
         >
           {/* Decorative lines */}
           <div
@@ -159,17 +159,17 @@ const Navigation = () => {
                 style={{
                   fontFamily: "'Bebas Neue', sans-serif",
                   letterSpacing: "0.25em",
-                  color: "hsl(215 100% 65%)",
-                  textShadow: "0 0 15px hsl(215 100% 55% / 0.4)",
+                  color: "hsl(0 0% 65%)",
+                  textShadow: "0 0 15px hsl(0 0% 55% / 0.4)",
                   animationDelay: `${i * 0.05}s`,
                 }}
                 onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.textShadow = "0 0 25px hsl(190 100% 55% / 0.8)";
-                  (e.target as HTMLElement).style.color = "hsl(190 100% 65%)";
+                  (e.target as HTMLElement).style.textShadow = "0 0 25px hsl(0 0% 55% / 0.8)";
+                  (e.target as HTMLElement).style.color = "hsl(0 0% 65%)";
                 }}
                 onMouseLeave={(e) => {
-                  (e.target as HTMLElement).style.textShadow = "0 0 15px hsl(215 100% 55% / 0.4)";
-                  (e.target as HTMLElement).style.color = "hsl(215 100% 65%)";
+                  (e.target as HTMLElement).style.textShadow = "0 0 15px hsl(0 0% 55% / 0.4)";
+                  (e.target as HTMLElement).style.color = "hsl(0 0% 65%)";
                 }}
               >
                 {item.name}
