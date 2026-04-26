@@ -243,8 +243,8 @@ const Index = () => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              border: `1px solid hsl(215 100% 55% / ${0.04 + i * 0.015})`,
-              boxShadow: i === 0 ? "none" : `0 0 ${20 + i * 10}px hsl(215 100% 50% / ${0.03 + i * 0.01})`,
+              border: `1px solid hsl(0 0% 80% / ${0.04 + i * 0.015})`,
+              boxShadow: i === 0 ? "none" : `0 0 ${20 + i * 10}px hsl(0 0% 80% / ${0.03 + i * 0.01})`,
             }}
           />
         ))}
@@ -970,7 +970,7 @@ const Index = () => {
                         Data Scientist
                       </p>
                       <div
-                        className="inline-flex items-center gap-3 font-p3-ui font-bold text-xs px-5 py-2.5 transition-all duration-300 group-hover:shadow-[0_0_20px_hsl(190_100%_55%/0.3)]"
+                        className="inline-flex items-center gap-3 font-p3-ui font-bold text-xs px-5 py-2.5 transition-all duration-300 group-hover:shadow-[0_0_20px_hsl(0_0%_80%/0.3)]"
                         style={{
                           letterSpacing: "0.2em",
                           color: "hsl(0 0% 60%)",
