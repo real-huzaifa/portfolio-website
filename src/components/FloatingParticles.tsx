@@ -36,7 +36,7 @@ const FloatingParticles = () => {
           height: 500,
           top: "5%",
           left: "10%",
-          background: "radial-gradient(circle, hsl(215 100% 50% / 0.06) 0%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(0 0% 50% / 0.06) 0%, transparent 70%)",
         }}
       />
       <div
@@ -46,7 +46,7 @@ const FloatingParticles = () => {
           height: 400,
           top: "55%",
           right: "5%",
-          background: "radial-gradient(circle, hsl(190 100% 55% / 0.05) 0%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(0 0% 55% / 0.05) 0%, transparent 70%)",
         }}
       />
       <div
@@ -56,7 +56,7 @@ const FloatingParticles = () => {
           height: 300,
           bottom: "15%",
           left: "40%",
-          background: "radial-gradient(circle, hsl(215 100% 50% / 0.04) 0%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(0 0% 50% / 0.04) 0%, transparent 70%)",
         }}
       />
 
@@ -70,10 +70,10 @@ const FloatingParticles = () => {
             height: dot.size,
             left: `${dot.x}%`,
             top: `${dot.y}%`,
-            background: `hsl(${i % 2 === 0 ? '215 100% 60%' : '190 100% 60%'} / ${0.15 + (i % 3) * 0.08})`,
+            background: `hsl(0 0% ${i % 2 === 0 ? 80 : 65}% / ${0.15 + (i % 3) * 0.08})`,
             animationDelay: `${dot.delay}s`,
             animationDuration: `${dot.dur}s`,
-            boxShadow: `0 0 6px hsl(215 100% 55% / 0.3)`,
+            boxShadow: `0 0 6px hsl(0 0% 55% / 0.3)`,
           }}
         />
       ))}
@@ -88,11 +88,11 @@ const FloatingParticles = () => {
             height: 5,
             left: `${d.x}%`,
             top: `${d.y}%`,
-            background: `hsl(${i % 2 === 0 ? '215 100% 65%' : '190 100% 60%'} / 0.2)`,
+            background: `hsl(0 0% ${i % 2 === 0 ? 85 : 70}% / 0.2)`,
             transform: "rotate(45deg)",
             animationDelay: `${d.delay}s`,
             animationDuration: `${d.dur}s`,
-            boxShadow: `0 0 8px hsl(215 100% 55% / 0.2)`,
+            boxShadow: `0 0 8px hsl(0 0% 55% / 0.2)`,
           }}
         />
       ))}

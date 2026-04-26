@@ -30,7 +30,7 @@ const P3Divider = () => (
   <div className="py-8 flex items-center justify-center gap-4">
     <div
       className="flex-1 h-px"
-      style={{ background: "linear-gradient(90deg, transparent, hsl(215 100% 50% / 0.5))" }}
+      style={{ background: "linear-gradient(90deg, transparent, hsl(0 0% 50% / 0.5))" }}
     />
     <div className="flex gap-2">
       <div className="p3-diamond" />
@@ -39,7 +39,7 @@ const P3Divider = () => (
     </div>
     <div
       className="flex-1 h-px"
-      style={{ background: "linear-gradient(90deg, hsl(215 100% 50% / 0.5), transparent)" }}
+      style={{ background: "linear-gradient(90deg, hsl(0 0% 50% / 0.5), transparent)" }}
     />
   </div>
 );
@@ -54,7 +54,7 @@ const SectionHeader = ({ tag, title, subtitle }: SectionHeaderProps) => (
   <div className="text-center mb-16 p3-reveal-up">
     <p
       className="font-p3-mono text-xs mb-4"
-      style={{ letterSpacing: "0.45em", color: "hsl(190 100% 55%)" }}
+      style={{ letterSpacing: "0.45em", color: "hsl(0 0% 55%)" }}
     >
       ◆ {tag} ◆
     </p>
@@ -62,20 +62,20 @@ const SectionHeader = ({ tag, title, subtitle }: SectionHeaderProps) => (
       className="p3-section-title p3-text-glow mb-4"
       style={{
         fontSize: "clamp(3rem, 8vw, 6rem)",
-        color: "hsl(210 100% 97%)",
+        color: "hsl(0 0% 97%)",
       }}
     >
       {title}
     </h2>
     <div className="flex items-center justify-center gap-3 mb-6">
-      <div className="h-[2px] w-24" style={{ background: "linear-gradient(90deg, transparent, hsl(215 100% 50%))" }} />
+      <div className="h-[2px] w-24" style={{ background: "linear-gradient(90deg, transparent, hsl(0 0% 50%))" }} />
       <div className="p3-diamond-sm" />
-      <div className="h-[2px] w-24" style={{ background: "linear-gradient(90deg, hsl(215 100% 50%), transparent)" }} />
+      <div className="h-[2px] w-24" style={{ background: "linear-gradient(90deg, hsl(0 0% 50%), transparent)" }} />
     </div>
     {subtitle && (
       <p
         className="font-p3-body text-lg max-w-xl mx-auto"
-        style={{ color: "hsl(215 35% 58%)", lineHeight: 1.7 }}
+        style={{ color: "hsl(0 0% 58%)", lineHeight: 1.7 }}
       >
         {subtitle}
       </p>
@@ -210,7 +210,7 @@ const Index = () => {
   ];
 
   return (
-    <div ref={ref} className="min-h-screen pt-16 overflow-x-hidden" style={{ background: "hsl(220 65% 5%)" }}>
+    <div ref={ref} className="min-h-screen pt-16 overflow-x-hidden" style={{ background: "hsl(0 0% 5%)" }}>
       <FloatingParticles />
 
       {/* ================================================================
@@ -225,9 +225,9 @@ const Index = () => {
           className="absolute inset-0"
           style={{
             background: `
-              radial-gradient(ellipse 70% 60% at 50% 80%, hsl(215 100% 30% / 0.2) 0%, transparent 65%),
-              radial-gradient(ellipse 50% 40% at 20% 30%, hsl(215 100% 40% / 0.1) 0%, transparent 60%),
-              hsl(220 65% 5%)
+              radial-gradient(ellipse 70% 60% at 50% 80%, hsl(0 0% 30% / 0.2) 0%, transparent 65%),
+              radial-gradient(ellipse 50% 40% at 20% 30%, hsl(0 0% 40% / 0.1) 0%, transparent 60%),
+              hsl(0 0% 5%)
             `,
           }}
         />
@@ -243,8 +243,8 @@ const Index = () => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              border: `1px solid hsl(215 100% 55% / ${0.04 + i * 0.015})`,
-              boxShadow: i === 0 ? "none" : `0 0 ${20 + i * 10}px hsl(215 100% 50% / ${0.03 + i * 0.01})`,
+              border: `1px solid hsl(0 0% 80% / ${0.04 + i * 0.015})`,
+              boxShadow: i === 0 ? "none" : `0 0 ${20 + i * 10}px hsl(0 0% 80% / ${0.03 + i * 0.01})`,
             }}
           />
         ))}
@@ -254,8 +254,8 @@ const Index = () => {
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage: `
-              linear-gradient(hsl(215 100% 55% / 0.04) 1px, transparent 1px),
-              linear-gradient(90deg, hsl(215 100% 55% / 0.04) 1px, transparent 1px)
+              linear-gradient(hsl(0 0% 55% / 0.04) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(0 0% 55% / 0.04) 1px, transparent 1px)
             `,
             backgroundSize: "80px 80px",
           }}
@@ -274,7 +274,7 @@ const Index = () => {
             style={{ ...pos, width: 40, height: 40 }}
           >
             <svg viewBox="0 0 40 40" fill="none" style={{ transform: `rotate(${pos.rot}deg)` }}>
-              <path d="M0 0 L20 0 L0 20" stroke="hsl(215 100% 55% / 0.4)" strokeWidth="1" />
+              <path d="M0 0 L20 0 L0 20" stroke="hsl(0 0% 55% / 0.4)" strokeWidth="1" />
             </svg>
           </div>
         ))}
@@ -289,7 +289,7 @@ const Index = () => {
             <div className="p3-diamond-sm" />
             <span
               className="font-p3-mono text-xs"
-              style={{ letterSpacing: "0.45em", color: "hsl(190 100% 60%)" }}
+              style={{ letterSpacing: "0.45em", color: "hsl(0 0% 60%)" }}
             >
               SYSTEM_INITIALIZE · TARTARUS_ENTRY
             </span>
@@ -305,7 +305,7 @@ const Index = () => {
               letterSpacing: "0.08em",
               lineHeight: 0.9,
               color: "white",
-              textShadow: "0 0 60px hsl(215 100% 55% / 0.4), 0 0 120px hsl(215 100% 50% / 0.2)",
+              textShadow: "0 0 60px hsl(0 0% 55% / 0.4), 0 0 120px hsl(0 0% 50% / 0.2)",
               animation: "p3-hero-title 1.2s cubic-bezier(0.23, 1, 0.32, 1) both",
             }}
           >
@@ -318,7 +318,7 @@ const Index = () => {
               fontSize: "clamp(3.5rem, 12vw, 8rem)",
               letterSpacing: "0.1em",
               lineHeight: 0.9,
-              background: "linear-gradient(135deg, hsl(215 100% 65%), hsl(190 100% 60%))",
+              background: "linear-gradient(135deg, hsl(0 0% 65%), hsl(0 0% 60%))",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -335,15 +335,15 @@ const Index = () => {
           >
             <div
               className="h-px flex-1 max-w-[100px]"
-              style={{ background: "linear-gradient(90deg, transparent, hsl(215 100% 55% / 0.6))" }}
+              style={{ background: "linear-gradient(90deg, transparent, hsl(0 0% 55% / 0.6))" }}
             />
             <div
               className="px-6 py-2 font-p3-ui font-bold text-sm"
               style={{
                 letterSpacing: "0.35em",
-                color: "hsl(215 100% 70%)",
-                border: "1px solid hsl(215 100% 55% / 0.35)",
-                background: "hsl(215 100% 50% / 0.08)",
+                color: "hsl(0 0% 70%)",
+                border: "1px solid hsl(0 0% 55% / 0.35)",
+                background: "hsl(0 0% 50% / 0.08)",
                 clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
               }}
             >
@@ -351,7 +351,7 @@ const Index = () => {
             </div>
             <div
               className="h-px flex-1 max-w-[100px]"
-              style={{ background: "linear-gradient(90deg, hsl(215 100% 55% / 0.6), transparent)" }}
+              style={{ background: "linear-gradient(90deg, hsl(0 0% 55% / 0.6), transparent)" }}
             />
           </div>
 
@@ -359,7 +359,7 @@ const Index = () => {
           <p
             className="font-p3-body text-lg max-w-xl mx-auto mb-12 leading-relaxed"
             style={{
-              color: "hsl(215 35% 60%)",
+              color: "hsl(0 0% 60%)",
               animation: "p3-fade-up 0.7s 0.7s ease both",
               opacity: 0,
             }}
@@ -401,17 +401,17 @@ const Index = () => {
         >
           <span
             className="font-p3-mono text-xs"
-            style={{ letterSpacing: "0.4em", color: "hsl(215 100% 55% / 0.6)" }}
+            style={{ letterSpacing: "0.4em", color: "hsl(0 0% 55% / 0.6)" }}
           >
             SCROLL
           </span>
           <div
             className="w-px h-12"
             style={{
-              background: "linear-gradient(180deg, hsl(215 100% 55% / 0.6), transparent)",
+              background: "linear-gradient(180deg, hsl(0 0% 55% / 0.6), transparent)",
             }}
           />
-          <ChevronDown size={14} style={{ color: "hsl(215 100% 55% / 0.6)" }} />
+          <ChevronDown size={14} style={{ color: "hsl(0 0% 55% / 0.6)" }} />
         </div>
       </section>
 
@@ -422,7 +422,7 @@ const Index = () => {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse 80% 50% at 0% 50%, hsl(215 80% 15% / 0.2) 0%, transparent 60%)",
+            background: "radial-gradient(ellipse 80% 50% at 0% 50%, hsl(0 0% 15% / 0.2) 0%, transparent 60%)",
           }}
         />
         <div className="max-w-5xl mx-auto relative z-10">
@@ -436,12 +436,12 @@ const Index = () => {
             <div className="p-8 md:p-12">
               <p
                 className="font-p3-body text-lg leading-relaxed mb-6"
-                style={{ color: "hsl(215 25% 72%)" }}
+                style={{ color: "hsl(0 0% 72%)" }}
               >
                 I am a passionate{" "}
                 <span
                   className="font-bold"
-                  style={{ color: "hsl(215 100% 65%)", textShadow: "0 0 12px hsl(215 100% 55% / 0.4)" }}
+                  style={{ color: "hsl(0 0% 65%)", textShadow: "0 0 12px hsl(0 0% 55% / 0.4)" }}
                 >
                   Data Analyst and Data Scientist
                 </span>{" "}
@@ -451,7 +451,7 @@ const Index = () => {
               </p>
               <p
                 className="font-p3-body text-lg leading-relaxed"
-                style={{ color: "hsl(215 25% 62%)" }}
+                style={{ color: "hsl(0 0% 62%)" }}
               >
                 With hands-on experience in Python, SQL, and various data science tools,
                 I am committed to continuous learning and applying innovative techniques to solve real-world problems.
@@ -462,10 +462,10 @@ const Index = () => {
           {/* Education */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-6 p3-reveal">
-              <GraduationCap size={22} style={{ color: "hsl(215 100% 60%)" }} />
+              <GraduationCap size={22} style={{ color: "hsl(0 0% 60%)" }} />
               <h3
                 className="font-p3-ui font-bold text-xl"
-                style={{ letterSpacing: "0.2em", color: "hsl(210 100% 90%)" }}
+                style={{ letterSpacing: "0.2em", color: "hsl(0 0% 90%)" }}
               >
                 EDUCATION
               </h3>
@@ -475,26 +475,26 @@ const Index = () => {
                 <div
                   className="w-14 h-14 flex items-center justify-center shrink-0"
                   style={{
-                    background: "linear-gradient(135deg, hsl(215 100% 50% / 0.2), hsl(190 100% 55% / 0.1))",
+                    background: "linear-gradient(135deg, hsl(0 0% 50% / 0.2), hsl(0 0% 55% / 0.1))",
                     clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
-                    border: "1px solid hsl(215 100% 50% / 0.3)",
+                    border: "1px solid hsl(0 0% 50% / 0.3)",
                   }}
                 >
-                  <GraduationCap size={22} style={{ color: "hsl(215 100% 65%)" }} />
+                  <GraduationCap size={22} style={{ color: "hsl(0 0% 65%)" }} />
                 </div>
                 <div>
                   <h4
                     className="font-p3-ui font-bold text-lg mb-1"
-                    style={{ color: "hsl(210 100% 90%)", letterSpacing: "0.08em" }}
+                    style={{ color: "hsl(0 0% 90%)", letterSpacing: "0.08em" }}
                   >
                     BS in Data Science
                   </h4>
-                  <p className="font-p3-body text-base mb-1" style={{ color: "hsl(215 25% 65%)" }}>
+                  <p className="font-p3-body text-base mb-1" style={{ color: "hsl(0 0% 65%)" }}>
                     Pak-Austria Fachhochschule: Institute of Applied Sciences and Technology
                   </p>
                   <p
                     className="font-p3-mono text-xs"
-                    style={{ color: "hsl(190 100% 55%)", letterSpacing: "0.2em" }}
+                    style={{ color: "hsl(0 0% 55%)", letterSpacing: "0.2em" }}
                   >
                     HARIPUR, PAKISTAN · 2022 – 2026
                   </p>
@@ -507,10 +507,10 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div>
               <div className="flex items-center gap-3 mb-5 p3-reveal">
-                <BookOpen size={18} style={{ color: "hsl(215 100% 60%)" }} />
+                <BookOpen size={18} style={{ color: "hsl(0 0% 60%)" }} />
                 <h3
                   className="font-p3-ui font-bold text-sm"
-                  style={{ letterSpacing: "0.25em", color: "hsl(210 100% 90%)" }}
+                  style={{ letterSpacing: "0.25em", color: "hsl(0 0% 90%)" }}
                 >
                   COURSEWORK
                 </h3>
@@ -519,8 +519,8 @@ const Index = () => {
                 {coursework.map((c, i) => (
                   <P3Panel key={i} revealDir="left" delay={(i + 1) * 100} className="p3-panel-sm">
                     <div className="px-5 py-3 flex items-center gap-3">
-                      <div className="p3-diamond-sm shrink-0" style={{ background: "hsl(215 100% 55%)" }} />
-                      <span className="font-p3-body font-semibold text-sm" style={{ color: "hsl(215 25% 72%)" }}>
+                      <div className="p3-diamond-sm shrink-0" style={{ background: "hsl(0 0% 55%)" }} />
+                      <span className="font-p3-body font-semibold text-sm" style={{ color: "hsl(0 0% 72%)" }}>
                         {c}
                       </span>
                     </div>
@@ -530,10 +530,10 @@ const Index = () => {
             </div>
             <div>
               <div className="flex items-center gap-3 mb-5 p3-reveal">
-                <Award size={18} style={{ color: "hsl(190 100% 55%)" }} />
+                <Award size={18} style={{ color: "hsl(0 0% 55%)" }} />
                 <h3
                   className="font-p3-ui font-bold text-sm"
-                  style={{ letterSpacing: "0.25em", color: "hsl(210 100% 90%)" }}
+                  style={{ letterSpacing: "0.25em", color: "hsl(0 0% 90%)" }}
                 >
                   CERTIFICATIONS
                 </h3>
@@ -542,8 +542,8 @@ const Index = () => {
                 {certifications.map((cert, i) => (
                   <P3Panel key={i} revealDir="right" delay={(i + 1) * 100} className="p3-panel-sm">
                     <div className="px-5 py-3 flex items-center gap-3">
-                      <div className="p3-diamond-sm shrink-0" style={{ background: "hsl(190 100% 55%)" }} />
-                      <span className="font-p3-body font-semibold text-sm" style={{ color: "hsl(215 25% 72%)" }}>
+                      <div className="p3-diamond-sm shrink-0" style={{ background: "hsl(0 0% 55%)" }} />
+                      <span className="font-p3-body font-semibold text-sm" style={{ color: "hsl(0 0% 72%)" }}>
                         {cert}
                       </span>
                     </div>
@@ -564,13 +564,13 @@ const Index = () => {
         id="skills"
         className="relative py-28 px-6"
         style={{
-          background: "linear-gradient(135deg, hsl(220 65% 7% / 0.8) 0%, hsl(220 65% 5%) 100%)",
+          background: "linear-gradient(135deg, hsl(0 0% 7% / 0.8) 0%, hsl(0 0% 5%) 100%)",
         }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse 60% 50% at 100% 30%, hsl(215 80% 20% / 0.25) 0%, transparent 60%)",
+            background: "radial-gradient(ellipse 60% 50% at 100% 30%, hsl(0 0% 20% / 0.25) 0%, transparent 60%)",
           }}
         />
         <div className="max-w-5xl mx-auto relative z-10">
@@ -579,8 +579,8 @@ const Index = () => {
           {/* Technical Skills */}
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-8 p3-reveal">
-              <Code size={22} style={{ color: "hsl(215 100% 60%)" }} />
-              <h3 className="font-p3-ui font-bold text-lg" style={{ letterSpacing: "0.2em", color: "hsl(210 100% 90%)" }}>
+              <Code size={22} style={{ color: "hsl(0 0% 60%)" }} />
+              <h3 className="font-p3-ui font-bold text-lg" style={{ letterSpacing: "0.2em", color: "hsl(0 0% 90%)" }}>
                 TECHNICAL SKILLS
               </h3>
             </div>
@@ -591,13 +591,13 @@ const Index = () => {
                     <div className="flex justify-between items-center mb-3">
                       <span
                         className="font-p3-ui font-bold text-sm"
-                        style={{ letterSpacing: "0.15em", color: "hsl(210 100% 90%)" }}
+                        style={{ letterSpacing: "0.15em", color: "hsl(0 0% 90%)" }}
                       >
                         {skill.name}
                       </span>
                       <span
                         className="font-p3-mono text-xs"
-                        style={{ color: "hsl(190 100% 55%)" }}
+                        style={{ color: "hsl(0 0% 55%)" }}
                       >
                         {skill.level}%
                       </span>
@@ -617,8 +617,8 @@ const Index = () => {
           {/* Domain Expertise */}
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-8 p3-reveal">
-              <Brain size={22} style={{ color: "hsl(190 100% 55%)" }} />
-              <h3 className="font-p3-ui font-bold text-lg" style={{ letterSpacing: "0.2em", color: "hsl(210 100% 90%)" }}>
+              <Brain size={22} style={{ color: "hsl(0 0% 55%)" }} />
+              <h3 className="font-p3-ui font-bold text-lg" style={{ letterSpacing: "0.2em", color: "hsl(0 0% 90%)" }}>
                 DOMAIN EXPERTISE
               </h3>
             </div>
@@ -630,18 +630,18 @@ const Index = () => {
                       <div
                         className="w-6 h-6 flex items-center justify-center"
                         style={{
-                          background: "linear-gradient(135deg, hsl(215 100% 50% / 0.2), hsl(190 100% 55% / 0.1))",
+                          background: "linear-gradient(135deg, hsl(0 0% 50% / 0.2), hsl(0 0% 55% / 0.1))",
                           clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
                         }}
                       />
                       <h4
                         className="font-p3-ui font-bold text-sm"
-                        style={{ letterSpacing: "0.12em", color: "hsl(210 100% 90%)" }}
+                        style={{ letterSpacing: "0.12em", color: "hsl(0 0% 90%)" }}
                       >
                         {d.title}
                       </h4>
                     </div>
-                    <p className="font-p3-body text-sm leading-relaxed" style={{ color: "hsl(215 25% 58%)" }}>
+                    <p className="font-p3-body text-sm leading-relaxed" style={{ color: "hsl(0 0% 58%)" }}>
                       {d.desc}
                     </p>
                   </div>
@@ -653,8 +653,8 @@ const Index = () => {
           {/* Soft Skills */}
           <div>
             <div className="flex items-center gap-3 mb-8 p3-reveal">
-              <Users size={22} style={{ color: "hsl(215 100% 60%)" }} />
-              <h3 className="font-p3-ui font-bold text-lg" style={{ letterSpacing: "0.2em", color: "hsl(210 100% 90%)" }}>
+              <Users size={22} style={{ color: "hsl(0 0% 60%)" }} />
+              <h3 className="font-p3-ui font-bold text-lg" style={{ letterSpacing: "0.2em", color: "hsl(0 0% 90%)" }}>
                 SOCIAL STATS
               </h3>
             </div>
@@ -666,21 +666,21 @@ const Index = () => {
                       size={32}
                       className="mx-auto mb-3 transition-all duration-300"
                       style={{
-                        color: "hsl(215 100% 55% / 0.5)",
+                        color: "hsl(0 0% 55% / 0.5)",
                         filter: "drop-shadow(0 0 0px transparent)",
                       }}
                       onMouseEnter={(e) => {
-                        (e.target as SVGElement).style.color = "hsl(215 100% 65%)";
-                        (e.target as SVGElement).style.filter = "drop-shadow(0 0 8px hsl(215 100% 55% / 0.6))";
+                        (e.target as SVGElement).style.color = "hsl(0 0% 65%)";
+                        (e.target as SVGElement).style.filter = "drop-shadow(0 0 8px hsl(0 0% 55% / 0.6))";
                       }}
                       onMouseLeave={(e) => {
-                        (e.target as SVGElement).style.color = "hsl(215 100% 55% / 0.5)";
+                        (e.target as SVGElement).style.color = "hsl(0 0% 55% / 0.5)";
                         (e.target as SVGElement).style.filter = "drop-shadow(0 0 0px transparent)";
                       }}
                     />
                     <p
                       className="font-p3-ui font-semibold text-xs"
-                      style={{ letterSpacing: "0.12em", color: "hsl(215 25% 72%)" }}
+                      style={{ letterSpacing: "0.12em", color: "hsl(0 0% 72%)" }}
                     >
                       {s.name}
                     </p>
@@ -701,7 +701,7 @@ const Index = () => {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse 70% 50% at 10% 60%, hsl(215 80% 15% / 0.2) 0%, transparent 60%)",
+            background: "radial-gradient(ellipse 70% 50% at 10% 60%, hsl(0 0% 15% / 0.2) 0%, transparent 60%)",
           }}
         />
         <div className="max-w-5xl mx-auto relative z-10">
@@ -712,8 +712,8 @@ const Index = () => {
             <div
               className="absolute left-4 top-0 bottom-0 w-px md:hidden"
               style={{
-                background: "linear-gradient(180deg, transparent, hsl(215 100% 50% / 0.6) 15%, hsl(190 100% 55% / 0.4) 85%, transparent)",
-                boxShadow: "0 0 6px hsl(215 100% 55% / 0.3)",
+                background: "linear-gradient(180deg, transparent, hsl(0 0% 50% / 0.6) 15%, hsl(0 0% 55% / 0.4) 85%, transparent)",
+                boxShadow: "0 0 6px hsl(0 0% 55% / 0.3)",
               }}
             />
 
@@ -724,8 +724,8 @@ const Index = () => {
                   <div
                     className="absolute left-[9px] top-4 w-4 h-4 rotate-45 md:hidden"
                     style={{
-                      background: "hsl(215 100% 55%)",
-                      boxShadow: "0 0 10px hsl(215 100% 55% / 0.6)",
+                      background: "hsl(0 0% 55%)",
+                      boxShadow: "0 0 10px hsl(0 0% 55% / 0.6)",
                     }}
                   />
 
@@ -736,17 +736,17 @@ const Index = () => {
                         <div>
                           <h4
                             className="font-p3-ui font-bold text-xl mb-1"
-                            style={{ letterSpacing: "0.12em", color: "hsl(215 100% 70%)", textShadow: "0 0 15px hsl(215 100% 55% / 0.3)" }}
+                            style={{ letterSpacing: "0.12em", color: "hsl(0 0% 70%)", textShadow: "0 0 15px hsl(0 0% 55% / 0.3)" }}
                           >
                             {exp.title}
                           </h4>
                           <div className="flex flex-wrap items-center gap-4">
-                            <span className="flex items-center gap-1.5 font-p3-body text-sm" style={{ color: "hsl(215 25% 65%)" }}>
-                              <Briefcase size={14} style={{ color: "hsl(215 100% 55% / 0.6)" }} />
+                            <span className="flex items-center gap-1.5 font-p3-body text-sm" style={{ color: "hsl(0 0% 65%)" }}>
+                              <Briefcase size={14} style={{ color: "hsl(0 0% 55% / 0.6)" }} />
                               {exp.company}
                             </span>
-                            <span className="flex items-center gap-1.5 font-p3-body text-sm" style={{ color: "hsl(215 25% 55%)" }}>
-                              <MapPin size={14} style={{ color: "hsl(215 100% 55% / 0.5)" }} />
+                            <span className="flex items-center gap-1.5 font-p3-body text-sm" style={{ color: "hsl(0 0% 55%)" }}>
+                              <MapPin size={14} style={{ color: "hsl(0 0% 55% / 0.5)" }} />
                               {exp.location}
                             </span>
                           </div>
@@ -754,9 +754,9 @@ const Index = () => {
                         <div
                           className="flex items-center gap-2 font-p3-mono text-xs px-4 py-2"
                           style={{
-                            color: "hsl(190 100% 60%)",
-                            background: "hsl(190 100% 55% / 0.08)",
-                            border: "1px solid hsl(190 100% 55% / 0.25)",
+                            color: "hsl(0 0% 60%)",
+                            background: "hsl(0 0% 55% / 0.08)",
+                            border: "1px solid hsl(0 0% 55% / 0.25)",
                             clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)",
                             letterSpacing: "0.1em",
                           }}
@@ -769,7 +769,7 @@ const Index = () => {
                       {/* Divider line */}
                       <div
                         className="h-px mb-5"
-                        style={{ background: "linear-gradient(90deg, hsl(215 100% 50% / 0.4), transparent)" }}
+                        style={{ background: "linear-gradient(90deg, hsl(0 0% 50% / 0.4), transparent)" }}
                       />
 
                       {/* Duties */}
@@ -778,11 +778,11 @@ const Index = () => {
                           <li key={j} className="flex items-start gap-3">
                             <div
                               className="shrink-0 mt-1.5 w-1.5 h-1.5 rotate-45"
-                              style={{ background: "hsl(215 100% 55% / 0.7)" }}
+                              style={{ background: "hsl(0 0% 55% / 0.7)" }}
                             />
                             <span
                               className="font-p3-body text-sm leading-relaxed"
-                              style={{ color: "hsl(215 25% 63%)" }}
+                              style={{ color: "hsl(0 0% 63%)" }}
                             >
                               {duty}
                             </span>
@@ -807,13 +807,13 @@ const Index = () => {
         id="projects"
         className="relative py-28 px-6"
         style={{
-          background: "linear-gradient(180deg, hsl(220 65% 5%), hsl(220 60% 7% / 0.8) 50%, hsl(220 65% 5%))",
+          background: "linear-gradient(180deg, hsl(0 0% 5%), hsl(0 0% 7% / 0.8) 50%, hsl(0 0% 5%))",
         }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse 80% 50% at 80% 30%, hsl(190 100% 30% / 0.15) 0%, transparent 60%)",
+            background: "radial-gradient(ellipse 80% 50% at 80% 30%, hsl(0 0% 30% / 0.15) 0%, transparent 60%)",
           }}
         />
         <div className="max-w-5xl mx-auto relative z-10">
@@ -832,21 +832,21 @@ const Index = () => {
                     <div
                       className="w-14 h-14 flex items-center justify-center shrink-0"
                       style={{
-                        background: "linear-gradient(135deg, hsl(215 100% 50% / 0.15), hsl(190 100% 55% / 0.08))",
+                        background: "linear-gradient(135deg, hsl(0 0% 50% / 0.15), hsl(0 0% 55% / 0.08))",
                         clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))",
-                        border: "1px solid hsl(215 100% 50% / 0.3)",
+                        border: "1px solid hsl(0 0% 50% / 0.3)",
                       }}
                     >
-                      <proj.icon size={24} style={{ color: "hsl(215 100% 65%)" }} />
+                      <proj.icon size={24} style={{ color: "hsl(0 0% 65%)" }} />
                     </div>
                     <div>
                       <h4
                         className="font-p3-ui font-black text-2xl mb-1"
-                        style={{ letterSpacing: "0.1em", color: "hsl(210 100% 92%)" }}
+                        style={{ letterSpacing: "0.1em", color: "hsl(0 0% 92%)" }}
                       >
                         {proj.title}
                       </h4>
-                      <p className="font-p3-body text-sm" style={{ color: "hsl(215 25% 55%)" }}>
+                      <p className="font-p3-body text-sm" style={{ color: "hsl(0 0% 55%)" }}>
                         {proj.desc}
                       </p>
                     </div>
@@ -862,14 +862,14 @@ const Index = () => {
                   {/* Divider */}
                   <div
                     className="h-px mb-5"
-                    style={{ background: "linear-gradient(90deg, hsl(190 100% 55% / 0.4), transparent)" }}
+                    style={{ background: "linear-gradient(90deg, hsl(0 0% 55% / 0.4), transparent)" }}
                   />
 
                   {/* Highlights */}
                   <div>
                     <p
                       className="font-p3-mono text-xs mb-3"
-                      style={{ letterSpacing: "0.3em", color: "hsl(190 100% 55%)" }}
+                      style={{ letterSpacing: "0.3em", color: "hsl(0 0% 55%)" }}
                     >
                       ◆ KEY_ACHIEVEMENTS
                     </p>
@@ -879,11 +879,11 @@ const Index = () => {
                           <div
                             className="shrink-0 w-2 h-2 rotate-45"
                             style={{
-                              background: "hsl(190 100% 55%)",
-                              boxShadow: "0 0 6px hsl(190 100% 55% / 0.5)",
+                              background: "hsl(0 0% 55%)",
+                              boxShadow: "0 0 6px hsl(0 0% 55% / 0.5)",
                             }}
                           />
-                          <span className="font-p3-body text-sm" style={{ color: "hsl(215 25% 67%)" }}>
+                          <span className="font-p3-body text-sm" style={{ color: "hsl(0 0% 67%)" }}>
                             {h}
                           </span>
                         </li>
@@ -906,7 +906,7 @@ const Index = () => {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse 60% 60% at 50% 100%, hsl(215 100% 20% / 0.2) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse 60% 60% at 50% 100%, hsl(0 0% 20% / 0.2) 0%, transparent 70%)",
           }}
         />
         <div className="max-w-5xl mx-auto relative z-10">
@@ -930,7 +930,7 @@ const Index = () => {
                   <div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                     style={{
-                      background: "linear-gradient(135deg, hsl(215 100% 50% / 0.06) 0%, hsl(190 100% 55% / 0.04) 100%)",
+                      background: "linear-gradient(135deg, hsl(0 0% 50% / 0.06) 0%, hsl(0 0% 55% / 0.04) 100%)",
                     }}
                   />
 
@@ -939,16 +939,16 @@ const Index = () => {
                     <div
                       className="w-28 h-28 flex items-center justify-center shrink-0"
                       style={{
-                        background: "linear-gradient(135deg, hsl(215 100% 50% / 0.15), hsl(190 100% 55% / 0.08))",
+                        background: "linear-gradient(135deg, hsl(0 0% 50% / 0.15), hsl(0 0% 55% / 0.08))",
                         clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
-                        border: "1px solid hsl(215 100% 50% / 0.3)",
-                        boxShadow: "0 0 30px hsl(215 100% 50% / 0.15)",
+                        border: "1px solid hsl(0 0% 50% / 0.3)",
+                        boxShadow: "0 0 30px hsl(0 0% 50% / 0.15)",
                         transition: "all 0.4s ease",
                       }}
                     >
                       <span
                         className="font-p3-display text-2xl"
-                        style={{ color: "hsl(215 100% 65%)", textShadow: "0 0 15px hsl(215 100% 55% / 0.5)" }}
+                        style={{ color: "hsl(0 0% 65%)", textShadow: "0 0 15px hsl(0 0% 55% / 0.5)" }}
                       >
                         AH
                       </span>
@@ -957,25 +957,25 @@ const Index = () => {
                     <div className="text-center md:text-left flex-1">
                       <h3
                         className="font-p3-ui font-black text-2xl md:text-3xl mb-2"
-                        style={{ letterSpacing: "0.1em", color: "hsl(210 100% 95%)", textShadow: "0 0 20px hsl(215 100% 55% / 0.2)" }}
+                        style={{ letterSpacing: "0.1em", color: "hsl(0 0% 95%)", textShadow: "0 0 20px hsl(0 0% 55% / 0.2)" }}
                       >
                         Ahmed Huzaifa Malik
                       </h3>
                       <p
                         className="font-p3-body text-base mb-5"
-                        style={{ color: "hsl(215 25% 60%)" }}
+                        style={{ color: "hsl(0 0% 60%)" }}
                       >
                         Data Analyst
                         <span className="mx-3 inline-block w-2 h-2 rotate-45 bg-current opacity-50" />
                         Data Scientist
                       </p>
                       <div
-                        className="inline-flex items-center gap-3 font-p3-ui font-bold text-xs px-5 py-2.5 transition-all duration-300 group-hover:shadow-[0_0_20px_hsl(190_100%_55%/0.3)]"
+                        className="inline-flex items-center gap-3 font-p3-ui font-bold text-xs px-5 py-2.5 transition-all duration-300 group-hover:shadow-[0_0_20px_hsl(0_0%_80%/0.3)]"
                         style={{
                           letterSpacing: "0.2em",
-                          color: "hsl(190 100% 60%)",
-                          border: "1px solid hsl(190 100% 55% / 0.4)",
-                          background: "hsl(190 100% 55% / 0.08)",
+                          color: "hsl(0 0% 60%)",
+                          border: "1px solid hsl(0 0% 55% / 0.4)",
+                          background: "hsl(0 0% 55% / 0.08)",
                           clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)",
                         }}
                       >
@@ -1005,17 +1005,17 @@ const Index = () => {
                       <info.icon
                         size={28}
                         className="mx-auto mb-4 transition-all duration-300"
-                        style={{ color: "hsl(215 100% 55% / 0.55)" }}
+                        style={{ color: "hsl(0 0% 55% / 0.55)" }}
                       />
                       <p
                         className="font-p3-mono text-xs mb-2"
-                        style={{ letterSpacing: "0.3em", color: "hsl(215 35% 50%)" }}
+                        style={{ letterSpacing: "0.3em", color: "hsl(0 0% 50%)" }}
                       >
                         {info.label}
                       </p>
                       <p
                         className="font-p3-body font-semibold text-sm"
-                        style={{ color: "hsl(215 25% 75%)" }}
+                        style={{ color: "hsl(0 0% 75%)" }}
                       >
                         {info.value}
                       </p>
@@ -1025,17 +1025,17 @@ const Index = () => {
                       <info.icon
                         size={28}
                         className="mx-auto mb-4"
-                        style={{ color: "hsl(215 100% 55% / 0.55)" }}
+                        style={{ color: "hsl(0 0% 55% / 0.55)" }}
                       />
                       <p
                         className="font-p3-mono text-xs mb-2"
-                        style={{ letterSpacing: "0.3em", color: "hsl(215 35% 50%)" }}
+                        style={{ letterSpacing: "0.3em", color: "hsl(0 0% 50%)" }}
                       >
                         {info.label}
                       </p>
                       <p
                         className="font-p3-body font-semibold text-sm"
-                        style={{ color: "hsl(215 25% 75%)" }}
+                        style={{ color: "hsl(0 0% 75%)" }}
                       >
                         {info.value}
                       </p>
@@ -1051,19 +1051,19 @@ const Index = () => {
             <div className="flex items-center justify-center gap-4 mb-6">
               <div
                 className="h-px flex-1 max-w-[80px]"
-                style={{ background: "linear-gradient(90deg, transparent, hsl(215 100% 50% / 0.4))" }}
+                style={{ background: "linear-gradient(90deg, transparent, hsl(0 0% 50% / 0.4))" }}
               />
               <div className="p3-diamond" />
               <div className="p3-diamond-sm" />
               <div className="p3-diamond" />
               <div
                 className="h-px flex-1 max-w-[80px]"
-                style={{ background: "linear-gradient(90deg, hsl(215 100% 50% / 0.4), transparent)" }}
+                style={{ background: "linear-gradient(90deg, hsl(0 0% 50% / 0.4), transparent)" }}
               />
             </div>
             <p
               className="font-p3-mono text-xs"
-              style={{ letterSpacing: "0.4em", color: "hsl(215 100% 55% / 0.4)" }}
+              style={{ letterSpacing: "0.4em", color: "hsl(0 0% 55% / 0.4)" }}
             >
               // END_TRANSMISSION · TARTARUS_EXIT
             </p>

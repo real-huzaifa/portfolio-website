@@ -50,10 +50,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // P3R specific
-        "p3-blue": "hsl(215 100% 50%)",
-        "p3-cyan": "hsl(190 100% 55%)",
-        "p3-bright": "hsl(210 100% 65%)",
+        // P3R specific (monochrome)
+        "p3-blue": "hsl(0 0% 90%)",
+        "p3-cyan": "hsl(0 0% 80%)",
+        "p3-bright": "hsl(0 0% 100%)",
       },
       fontFamily: {
         "p3-display": ["'Bebas Neue'", "sans-serif"],
